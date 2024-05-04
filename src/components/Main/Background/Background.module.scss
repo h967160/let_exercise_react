@@ -1,0 +1,34 @@
+$screen-break-point: 749.5px;
+
+.background {
+  background: center center / 100% 100%,
+    url("https://picsum.photos/1200/600?random=10") center/ auto 100%;
+  height: 50vh;
+  width: 100%;
+  padding-top: 60px;
+  min-height: 600px;
+  position: relative;
+  .backgroundTitle {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    h1 {
+      font-size: 2.5rem;
+      color: var(--title-color);
+      letter-spacing: 0.7rem; /*字元間距*/
+    }
+  }
+}
+
+@media screen and (min-width: $screen-break-point) {
+  .background {
+    height: 100vh;
+    .backgroundTitle {
+      h1 {
+        font-size: 4rem;
+      }
+    }
+  }
+}
