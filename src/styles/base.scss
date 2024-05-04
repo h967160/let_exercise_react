@@ -1,0 +1,56 @@
+@use "sass:math";
+$screen-break-point: 749.5px;
+
+:root {
+  --white: #ffffff;
+  --pink: #f67599;
+
+  --grey-800: #2a2a2a;
+  --grey-700: #333333;
+  --grey-400: #808080;
+  --grey-300: #999999;
+
+  --main-font-family: "Noto Sans TC", sans-serif;
+}
+
+body {
+  --background-color: #ffffff;
+  --footer-background-color: #333333;
+  --primary: #00204a;
+  --secondary: #005555;
+  --nav-link: #2a2a2a;
+  --social-icon: #808080;
+  --main-text: #2a2a2a;
+  --secondary-text: #808080;
+  --button-color: #ffed97;
+  --title-color: #f6f7f8;
+  --header-color: #808080;
+  --header-text-color: #f0f0f5;
+  --input-label: #808080;
+  --input-border: #4a4a4a;
+  --input-text: #999999;
+
+  background-color: var(--background-color);
+  color: var(--main-text);
+  font-family: var(--main-font-family);
+  user-select: none;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
+  width: 75%;
+  margin: 0 auto 3rem auto;
+}
+.cursor-point {
+  cursor: pointer;
+}
