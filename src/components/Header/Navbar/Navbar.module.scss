@@ -1,0 +1,146 @@
+@use "sass:math";
+$screen-break-point: 749.5px;
+
+.headerWrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-auto-flow: column;
+  align-items: center;
+  background: var(--background-color);
+  border-radius: 7px;
+  margin-top: 20px;
+  .navbarBrand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    gap: 0.1rem; /* logo跟文字間距*/
+    grid-column: 2 / 3;
+    /*與外層 Header 高度相同達到垂直置中*/
+    line-height: var(--header-height);
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    a {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--grey-800);
+      white-space: nowrap;
+    }
+  }
+  .nav {
+    position: absolute;
+    top: 120%;
+    width: 120px;
+    display: none;
+    height: 200px;
+    background: var(--background-color);
+    border-bottom: 0.5px solid var(--grey-800);
+    border-radius: 5px;
+    .navItem {
+      margin: 1.2rem 0;
+      display: flex;
+      justify-content: flex-start;
+      padding-left: 1.2rem;
+    }
+    .navLink {
+      color: var(--nav-link);
+      font-weight: 550;
+    }
+  }
+  // hamburger
+  .navbarToggle {
+    position: absolute;
+    visibility: hidden;
+  }
+  .navbarToggle:checked ~ .nav {
+    transform: scale(1, 1);
+  }
+  .navbarToggle:checked ~ .nav {
+    display: block;
+  }
+
+  .navbarToggle:checked ~ .nav .nav-item {
+    /*只有開啟時 delay .15s */
+    transition: opacity 0.2s ease-out 0.15s;
+    /*開啟時透明度為1*/
+    opacity: 1;
+  }
+  .burgerContainer {
+    position: absolute;
+    margin-left: 1.5rem;
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  .navIcon {
+    grid-column: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-right: 1.5rem;
+    .moonIcon {
+      display: none;
+    }
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+@media screen and (min-width: $screen-break-point) {
+  :root {
+    --header-height: 65px;
+  }
+  .headerWrapper {
+    height: var(--header-height);
+    .navbarBrand {
+      all: unset;
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      gap: 0.3rem; /* logo跟文字間距*/
+      margin-left: 0.5rem;
+      line-height: var(--header-height);
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    /*移除漢堡排*/
+    .burgerContainer {
+      display: none;
+    }
+    .nav {
+      all: unset;
+      display: flex;
+      align-items: center;
+      .navList {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        .navLink {
+          color: var(--nav-link);
+          font-weight: 550;
+        }
+      }
+    }
+    .navIcon {
+      .moonIcon {
+        display: block;
+      }
+      img {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+}
