@@ -1,11 +1,5 @@
-import Background from "./Background/Background";
-
-const Main = () => {
-  return (
-    <main>
-      <Background />
-    </main>
-  );
+const Main = ({ children }) => {
+  return <main>{children}</main>;
 };
 
 export default Main;
