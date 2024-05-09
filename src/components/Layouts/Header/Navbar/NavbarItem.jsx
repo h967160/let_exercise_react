@@ -1,12 +1,12 @@
 import styles from "./Navbar.module.scss";
+import { Link } from "react-router-dom";
 
-const NavbarItem = ({ label }) => {
+const NavbarItem = ({ label, path }) => {
   return (
     <li className={styles.navItem}>
-      {/* eslint-disable-next-line*/}
-      <a href="#" className={styles.navLink}>
+      <Link to={path} className={styles.navLink}>
         {label}
-      </a>
+      </Link>
     </li>
   );
 };
