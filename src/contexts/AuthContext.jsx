@@ -8,7 +8,7 @@ const defaultAuthContext = {
   user: null,
   signup: null,
   login: null,
-  // logout: null, 登出未寫
+  logout: null,
 };
 
 const AuthContext = createContext(defaultAuthContext);
@@ -92,6 +92,11 @@ export const AuthProvider = ({ children }) => {
           } else {
             return { success: false, message: response.message };
           }
+        },
+        logout: () => {
+          localStorage.removeItem("token");
+          setPayload(null);
+          setIsAuthenticated(false);
         },
       }}
     >

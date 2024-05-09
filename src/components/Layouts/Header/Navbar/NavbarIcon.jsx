@@ -13,7 +13,7 @@ const navItems = [
 ];
 
 const NavbarIcon = () => {
-  const { isAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
 
   // 根據是否登入顯示
   const generateNavItems = () => {
@@ -50,6 +50,7 @@ const NavbarIcon = () => {
                 key={index}
                 label={label}
                 path={navItems.find((item) => item.label === label).path}
+                onClick={label === "登出" ? logout : null}
               />
             ))}
           </ul>
