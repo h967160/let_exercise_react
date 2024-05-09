@@ -6,6 +6,8 @@ import styles from "./SignUpPage.module.scss";
 import Main from "@/components/Main/Main";
 import AuthInput from "@/components/Auth/AuthInput";
 import { useAuth } from "@/contexts/AuthContext";
+import Header from "@/components/Layouts/Header/Header";
+import Footer from "@/components/Layouts/Footer/Footer";
 
 const SignUpPage = () => {
   const [lastName, setLastName] = useState("");
@@ -99,194 +101,198 @@ const SignUpPage = () => {
   };
 
   return (
-    <Main>
-      <div className="container">
-        <form className={styles.form}>
-          <div className={styles.formWrapper}>
-            {/* 一鍵按鈕區塊之後刪除 */}
-            <div>
-              <button
-                type="button"
-                style={{
-                  backgroundColor: "#007bff",
-                  color: "#fff",
-                  padding: "10px 20px",
-                  borderRadius: "5px",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                }}
-                onClick={handleQuickFill}
-              >
-                一鍵輸入
-              </button>
-            </div>
-            {/* 一鍵按鈕區塊之後刪除 */}
-            <div className={`${styles.formGroup} ${styles.flexRow}`}>
-              <div className={styles.flexColumn}>
+    <>
+      <Header />
+      <Main>
+        <div className="container">
+          <form className={styles.form}>
+            <div className={styles.formWrapper}>
+              {/* 一鍵按鈕區塊之後刪除 */}
+              <div>
+                <button
+                  type="button"
+                  style={{
+                    backgroundColor: "#007bff",
+                    color: "#fff",
+                    padding: "10px 20px",
+                    borderRadius: "5px",
+                    border: "none",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                  }}
+                  onClick={handleQuickFill}
+                >
+                  一鍵輸入
+                </button>
+              </div>
+              {/* 一鍵按鈕區塊之後刪除 */}
+              <div className={`${styles.formGroup} ${styles.flexRow}`}>
+                <div className={styles.flexColumn}>
+                  <AuthInput
+                    label={"姓"}
+                    value={lastName}
+                    placeholder={"請輸入您的姓氏"}
+                    required={true}
+                    onChange={(lastName) => setLastName(lastName)}
+                  />
+                </div>
+                <div className={styles.flexColumn}>
+                  <AuthInput
+                    label={"名"}
+                    value={firstName}
+                    placeholder={"請輸入您的名字"}
+                    required={true}
+                    onChange={(firstName) => setFirstName(firstName)}
+                  />
+                </div>
+                <div className={styles.flexColumn}>
+                  <AuthInput
+                    label={"暱稱"}
+                    value={nickName}
+                    placeholder={"請輸入您的暱稱"}
+                    onChange={(nickName) => setNickName(nickName)}
+                  />
+                </div>
+              </div>
+              <div className={styles.formGroup}>
                 <AuthInput
-                  label={"姓"}
-                  value={lastName}
-                  placeholder={"請輸入您的姓氏"}
+                  label={"帳號"}
+                  value={account}
+                  placeholder={"請輸入至少6個字元的帳號"}
                   required={true}
-                  onChange={(lastName) => setLastName(lastName)}
+                  onChange={(account) => setAccount(account)}
                 />
               </div>
-              <div className={styles.flexColumn}>
+              <div className={styles.formGroup}>
                 <AuthInput
-                  label={"名"}
-                  value={firstName}
-                  placeholder={"請輸入您的名字"}
+                  type="password"
+                  label={"密碼"}
+                  value={password}
+                  placeholder={
+                    "請輸入最少8個字元，需包含至少一個大寫英文字母和一個數字"
+                  }
                   required={true}
-                  onChange={(firstName) => setFirstName(firstName)}
+                  onChange={(password) => setPassword(password)}
                 />
               </div>
-              <div className={styles.flexColumn}>
+              <div className={styles.formGroup}>
                 <AuthInput
-                  label={"暱稱"}
-                  value={nickName}
-                  placeholder={"請輸入您的暱稱"}
-                  onChange={(nickName) => setNickName(nickName)}
+                  type="password"
+                  label={"確認密碼"}
+                  value={checkPassword}
+                  placeholder={"請再輸入一次密碼"}
+                  required={true}
+                  onChange={(checkPassword) => setCheckPassword(checkPassword)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <AuthInput
+                  label={"身分證字號"}
+                  value={nationalId}
+                  placeholder={"請輸入正確的身分證字號（第一碼為大寫英文字母）"}
+                  required={true}
+                  onChange={(nationalId) => setNationalId(nationalId)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <AuthInput
+                  type="email"
+                  label={"Email"}
+                  value={email}
+                  placeholder={"請輸入有效的Email"}
+                  required={true}
+                  onChange={(email) => setEmail(email)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="gender">
+                  性別<span>*</span>
+                </label>
+                <div className={styles.flexRowGender}>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    required
+                    checked={gender === "male"}
+                    onChange={handleGenderChange}
+                  />
+                  <span>男性</span>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="female"
+                    checked={gender === "female"}
+                    onChange={handleGenderChange}
+                  />
+                  <span>女性</span>
+                </div>
+              </div>
+              <div className={styles.formGroup}>
+                <AuthInput
+                  type="date"
+                  label={"出生日期"}
+                  value={birthdate}
+                  required={true}
+                  onChange={(birthdate) => setBirthdate(birthdate)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <AuthInput
+                  label={"手機"}
+                  value={phoneNumber}
+                  required={true}
+                  placeholder={"請輸入正確的手機號碼（例如：0912345678）"}
+                  onChange={(phoneNumber) => setPhoneNumber(phoneNumber)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <AuthInput
+                  type="date"
+                  label={"接觸羽球時間"}
+                  value={playSince}
+                  onChange={(playSince) => setPlaySince(playSince)}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="introduction">個人簡介</label>
+                <textarea
+                  rows="10"
+                  name="introduction"
+                  id="introduction"
+                  maxLength="150"
+                  placeholder="請輸入您的個人簡介（最多150字元）"
+                  value={introduction}
+                  onChange={handleIntroductionChange}
+                ></textarea>
+              </div>
+              <div className={`${styles.formGroup} ${styles.formButton}`}>
+                <AuthButton text={"註冊"} onClick={handleClick} />
+              </div>
+              <div className={styles.singleSignOn}>
+                <img
+                  src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-256.png"
+                  className="single-sign-on-img cursor-pointer"
+                  alt="Facebook"
+                />
+                <img
+                  src="https://cdn3.iconfinder.com/data/icons/logos-brands-3/24/logo_brand_brands_logos_google-256.png"
+                  alt="Google"
+                  className="single-sign-on-img cursor-pointer"
+                />
+                <img
+                  src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/200_Line_logo_logos-256.png"
+                  alt="Line"
+                  className="single-sign-on-img cursor-pointer"
                 />
               </div>
             </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                label={"帳號"}
-                value={account}
-                placeholder={"請輸入至少6個字元的帳號"}
-                required={true}
-                onChange={(account) => setAccount(account)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                type="password"
-                label={"密碼"}
-                value={password}
-                placeholder={
-                  "請輸入最少8個字元，需包含至少一個大寫英文字母和一個數字"
-                }
-                required={true}
-                onChange={(password) => setPassword(password)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                type="password"
-                label={"確認密碼"}
-                value={checkPassword}
-                placeholder={"請再輸入一次密碼"}
-                required={true}
-                onChange={(checkPassword) => setCheckPassword(checkPassword)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                label={"身分證字號"}
-                value={nationalId}
-                placeholder={"請輸入正確的身分證字號（第一碼為大寫英文字母）"}
-                required={true}
-                onChange={(nationalId) => setNationalId(nationalId)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                type="email"
-                label={"Email"}
-                value={email}
-                placeholder={"請輸入有效的Email"}
-                required={true}
-                onChange={(email) => setEmail(email)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="gender">
-                性別<span>*</span>
-              </label>
-              <div className={styles.flexRowGender}>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  required
-                  checked={gender === "male"}
-                  onChange={handleGenderChange}
-                />
-                <span>男性</span>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={gender === "female"}
-                  onChange={handleGenderChange}
-                />
-                <span>女性</span>
-              </div>
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                type="date"
-                label={"出生日期"}
-                value={birthdate}
-                required={true}
-                onChange={(birthdate) => setBirthdate(birthdate)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                label={"手機"}
-                value={phoneNumber}
-                required={true}
-                placeholder={"請輸入正確的手機號碼（例如：0912345678）"}
-                onChange={(phoneNumber) => setPhoneNumber(phoneNumber)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <AuthInput
-                type="date"
-                label={"接觸羽球時間"}
-                value={playSince}
-                onChange={(playSince) => setPlaySince(playSince)}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="introduction">個人簡介</label>
-              <textarea
-                rows="10"
-                name="introduction"
-                id="introduction"
-                maxLength="150"
-                placeholder="請輸入您的個人簡介（最多150字元）"
-                value={introduction}
-                onChange={handleIntroductionChange}
-              ></textarea>
-            </div>
-            <div className={`${styles.formGroup} ${styles.formButton}`}>
-              <AuthButton text={"註冊"} onClick={handleClick} />
-            </div>
-            <div className={styles.singleSignOn}>
-              <img
-                src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Facebook_colored_svg_copy-256.png"
-                className="single-sign-on-img cursor-pointer"
-                alt="Facebook"
-              />
-              <img
-                src="https://cdn3.iconfinder.com/data/icons/logos-brands-3/24/logo_brand_brands_logos_google-256.png"
-                alt="Google"
-                className="single-sign-on-img cursor-pointer"
-              />
-              <img
-                src="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/200_Line_logo_logos-256.png"
-                alt="Line"
-                className="single-sign-on-img cursor-pointer"
-              />
-            </div>
-          </div>
-        </form>
-      </div>
-    </Main>
+          </form>
+        </div>
+      </Main>
+      <Footer />
+    </>
   );
 };
 
