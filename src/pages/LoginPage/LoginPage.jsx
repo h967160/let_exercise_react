@@ -4,15 +4,16 @@ import Footer from "@/components/Layouts/Footer/Footer";
 import Main from "@/components/Main/Main";
 import Header from "@/components/Layouts/Header/Header";
 import AuthInput from "@/components/Auth/AuthInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthButton, AuthLinkText } from "@/components/Common/Auth";
-import { login } from "@/apis/auth";
+import { useAuth } from "@/contexts/AuthContext";
 
 const LoginPage = () => {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth(); // 取出需要的狀態與方法
 
   const handleClick = async (event) => {
     event.preventDefault(); // 阻止表單的預設行為
@@ -24,42 +25,38 @@ const LoginPage = () => {
     if (password.length === 0) {
       return;
     }
+    const response = await login({
+      account,
+      password,
+    });
 
-    try {
-      const response = await login({
-        account,
-        password,
-      });
-
-      // 如果 response 存在且狀態是成功
-      if (response && response.status === "Success") {
-        // 從回應中取得 token
-        const { token } = response.data;
-        // 將 token 存入 localStorage
-        localStorage.setItem("token", token);
-        navigate("/");
-        // 登入成功訊息
-        Swal.fire({
-          position: "top",
-          title: "登入成功！",
-          timer: 1500,
-          icon: "success",
-          showConfirmButton: false,
-        });
-        return;
-      }
-      // 登入失敗訊息
+    if (response.success) {
+      // 登入成功訊息
       Swal.fire({
         position: "top",
-        title: "登入失敗！",
+        title: "登入成功！",
         timer: 1500,
-        icon: "error",
+        icon: "success",
         showConfirmButton: false,
       });
-    } catch (error) {
-      console.error("登入失敗:", error);
+      console.log(response);
+      return;
     }
+    // 登入失敗訊息
+    Swal.fire({
+      position: "top",
+      title: "登入失敗！",
+      timer: 1500,
+      icon: "error",
+      showConfirmButton: false,
+    });
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <>

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signup } from "@/apis/auth";
 import { AuthButton } from "@/components/Common/Auth";
 import Swal from "sweetalert2";
 import styles from "./SignUpPage.module.scss";
 import Main from "@/components/Main/Main";
 import AuthInput from "@/components/Auth/AuthInput";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SignUpPage = () => {
   const [lastName, setLastName] = useState("");
@@ -23,6 +23,7 @@ const SignUpPage = () => {
   const [introduction, setIntroduction] = useState("");
   const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -61,48 +62,40 @@ const SignUpPage = () => {
       return;
     }
 
-    try {
-      const response = await signup({
-        nationalId,
-        email,
-        account,
-        password,
-        checkPassword,
-        firstName,
-        lastName,
-        nickName,
-        gender,
-        introduction,
-        avatar,
-        birthdate,
-        playSince,
-        phoneNumber,
-      });
-
-      // 如果 response 存在且狀態是成功
-      if (response && response.status === "Success") {
-        navigate("/login");
-        // 註冊成功訊息
-        Swal.fire({
-          position: "top",
-          title: "註冊成功！",
-          timer: 1500,
-          icon: "success",
-          showConfirmButton: false,
-        });
-        return;
-      }
-      // 註冊失敗訊息
+    const success = await signup({
+      nationalId,
+      email,
+      account,
+      password,
+      checkPassword,
+      firstName,
+      lastName,
+      nickName,
+      gender,
+      introduction,
+      avatar,
+      birthdate,
+      playSince,
+      phoneNumber,
+    });
+    if (success) {
       Swal.fire({
         position: "top",
-        title: "註冊失敗！",
-        timer: 1500,
-        icon: "error",
+        title: "註冊成功！",
+        timer: 1000,
+        icon: "success",
         showConfirmButton: false,
       });
-    } catch (error) {
-      console.error("註冊失敗:", error);
+      navigate("/login");
+      return;
     }
+    Swal.fire({
+      position: "top",
+      title: "註冊失敗！",
+      timer: 1000,
+      icon: "error",
+      showConfirmButton: false,
+    });
   };
 
   return (
