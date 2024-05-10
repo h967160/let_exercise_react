@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
             playSince: data.playSince,
             phoneNumber: data.phoneNumber,
           });
-          if (response.status === "success") {
+          if (response && response.status === "Success") {
             return { success: true, message: response.message };
           } else {
             return { success: false, message: response.message };

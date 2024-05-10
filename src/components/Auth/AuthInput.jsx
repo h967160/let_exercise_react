@@ -18,12 +18,46 @@ const AuthInput = forwardRef(
     },
     ref
   ) => {
-    let isAccountExist =
-      responseError?.includes("帳號不存在") && id === "account";
-
-    let isAccountOrPasswordError =
-      responseError?.includes("錯誤") &&
-      (id === "account" || id === "password");
+    const getResponseErrorMessage = () => {
+      if (responseError) {
+        if (
+          responseError.includes("帳號已存在") ||
+          (responseError.includes("Account already exists!") &&
+            id === "account")
+        ) {
+          return "帳號已存在!";
+        }
+        if (
+          responseError.includes("帳號或密碼錯誤") &&
+          (id === "account" || id === "password")
+        ) {
+          return "帳號或密碼錯誤!";
+        }
+        if (
+          responseError.includes("National ID already exists!") &&
+          id === "nationalId"
+        ) {
+          return "身分證已被使用!";
+        }
+        if (responseError.includes("Email already exists!") && id === "email") {
+          return "Email已被使用!";
+        }
+        if (
+          responseError.includes("Phone number already exists!") &&
+          id === "phoneNumber"
+        ) {
+          return "手機號碼已被使用!";
+        }
+        if (
+          responseError.includes("性別與身分證不相符") &&
+          (id === "gender" || id === "nationalId")
+        ) {
+          return "性別與身分證不相符!";
+        }
+      }
+      // 如果沒有符合的responseError，則回傳error
+      return error;
+    };
     return (
       <>
         <label className={styles.label}>
@@ -32,7 +66,7 @@ const AuthInput = forwardRef(
         </label>
         <input
           className={`${styles.input} ${
-            responseError || error ? styles.inputError : ""
+            getResponseErrorMessage() ? styles.inputError : ""
           }`}
           type={type || "text"}
           id={id}
@@ -43,15 +77,8 @@ const AuthInput = forwardRef(
           responseError={responseError}
           {...props}
         />
-        {/* 如果是帳號不存在錯誤，則顯示錯誤訊息 */}
-        {isAccountExist && <p className={styles.error}>{responseError}</p>}
-        {/* 如果是帳號或密碼錯誤，則顯示錯誤訊息 */}
-        {isAccountOrPasswordError && (
-          <p className={styles.error}>{responseError}</p>
-        )}
-        {/* 沒有後端回應訊息則顯示錯誤訊息 */}
-        {!isAccountExist && !isAccountOrPasswordError && error && (
-          <p className={styles.error}>{error}</p>
+        {getResponseErrorMessage() && (
+          <p className={styles.error}>{getResponseErrorMessage()}</p>
         )}
       </>
     );

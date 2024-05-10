@@ -11,6 +11,7 @@ export const login = async ({ account, password }) => {
 
     return response.data;
   } catch (error) {
+    console.error("[Login Failed]:", error);
     return error.response.data;
   }
 };
@@ -32,7 +33,7 @@ export const signup = async ({
   phoneNumber,
 }) => {
   try {
-    const { data } = await axios.post(`${authURL}/users/signup`, {
+    const response = await axios.post(`${authURL}/users/signup`, {
       nationalId,
       email,
       account,
@@ -48,9 +49,9 @@ export const signup = async ({
       playSince,
       phoneNumber,
     });
-
-    return data;
+    return response.data;
   } catch (error) {
     console.error("[SignUp Failed]:", error);
+    return error.response.data;
   }
 };

@@ -6,65 +6,76 @@ import styles from "./SignUpPage.module.scss";
 import Main from "@/components/Main/Main";
 import AuthInput from "@/components/Auth/AuthInput";
 import { useAuth } from "@/contexts/AuthContext";
+import { useForm } from "react-hook-form";
 import Header from "@/components/Layouts/Header/Header";
 import Footer from "@/components/Layouts/Footer/Footer";
 
 const SignUpPage = () => {
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [nickName, setNickName] = useState("");
-  const [account, setAccount] = useState("");
-  const [password, setPassword] = useState("");
-  const [checkPassword, setCheckPassword] = useState("");
-  const [nationalId, setNationalId] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const [birthdate, setBirthdate] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [playSince, setPlaySince] = useState("2023-01-01");
-  const [introduction, setIntroduction] = useState("");
-  const [avatar, setAvatar] = useState(null);
   const navigate = useNavigate();
   const { signup } = useAuth();
+  const [responseError, setResponseError] = useState("");
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
-
-  const handleIntroductionChange = (event) => {
-    setIntroduction(event.target.value);
-  };
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      nationalId: "",
+      email: "",
+      account: "",
+      password: "",
+      checkPassword: "",
+      firstName: "",
+      lastName: "",
+      nickName: "",
+      gender: "",
+      introduction: "",
+      avatar: "",
+      birthdate: "",
+      playSince: "",
+      phoneNumber: "",
+    },
+  });
 
   // 測試用一鍵輸入按鈕 之後會刪除
   const handleQuickFill = () => {
-    // 使用者點擊一鍵輸入按鈕後，將預設的註冊資訊填入對應的狀態中
-    setLastName("Doe");
-    setFirstName("John");
-    setNickName("JD");
-    setAccount("test11");
-    setPassword("Test1111");
-    setCheckPassword("Test1111");
-    setNationalId("P123456789");
-    setEmail("test11@test.com");
-    setGender("male");
-    setBirthdate("1990-01-01");
-    setPhoneNumber("0912345678");
-    setPlaySince("2020-03-01");
-    setIntroduction("Hello, I'm John Doe!");
+    // 使用者點擊一鍵輸入按鈕後，將預設的註冊資訊填入對應的表單欄位中
+    setValue("lastName", "Doe");
+    setValue("firstName", "John");
+    setValue("nickName", "JD");
+    setValue("account", "test11");
+    setValue("password", "Test1111");
+    setValue("checkPassword", "Test1111");
+    setValue("nationalId", "P123456789");
+    setValue("email", "test11@test.com");
+    setValue("gender", "male");
+    setValue("birthdate", "1990-01-01");
+    setValue("phoneNumber", "0912345678");
+    setValue("playSince", "2020-03-01");
+    setValue("introduction", "Hello, I'm John Doe!");
   };
 
-  const handleClick = async (event) => {
-    event.preventDefault(); // 阻止表單的預設行為
-
-    // 檢查帳號和密碼是否為空
-    if (account.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-
-    const success = await signup({
+  const onSubmit = async ({
+    nationalId,
+    email,
+    account,
+    password,
+    checkPassword,
+    firstName,
+    lastName,
+    nickName,
+    gender,
+    introduction,
+    avatar,
+    birthdate,
+    playSince,
+    phoneNumber,
+  }) => {
+    const response = await signup({
       nationalId,
       email,
       account,
@@ -75,12 +86,12 @@ const SignUpPage = () => {
       nickName,
       gender,
       introduction,
-      avatar,
+      avatar: null,
       birthdate,
       playSince,
       phoneNumber,
     });
-    if (success) {
+    if (response.success) {
       Swal.fire({
         position: "top",
         title: "註冊成功！",
@@ -88,16 +99,19 @@ const SignUpPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
+      setResponseError("");
       navigate("/login");
       return;
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "註冊失敗！",
+        timer: 1000,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      setResponseError(response.message);
     }
-    Swal.fire({
-      position: "top",
-      title: "註冊失敗！",
-      timer: 1000,
-      icon: "error",
-      showConfirmButton: false,
-    });
   };
 
   return (
@@ -105,7 +119,11 @@ const SignUpPage = () => {
       <Header />
       <Main>
         <div className="container">
-          <form className={styles.form}>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+          >
             <div className={styles.formWrapper}>
               {/* 一鍵按鈕區塊之後刪除 */}
               <div>
@@ -131,78 +149,162 @@ const SignUpPage = () => {
                 <div className={styles.flexColumn}>
                   <AuthInput
                     label={"姓"}
-                    value={lastName}
+                    id={"lastName"}
+                    responseError={responseError}
                     placeholder={"請輸入您的姓氏"}
                     required={true}
-                    onChange={(lastName) => setLastName(lastName)}
+                    {...register("lastName", {
+                      required: "姓氏為必填",
+                      maxLength: {
+                        value: 20,
+                        message: "姓氏最多不超過為20個字元",
+                      },
+                    })}
+                    error={errors.lastName ? errors.lastName.message : null}
                   />
                 </div>
                 <div className={styles.flexColumn}>
                   <AuthInput
                     label={"名"}
-                    value={firstName}
+                    id={"firstName"}
+                    responseError={responseError}
                     placeholder={"請輸入您的名字"}
                     required={true}
-                    onChange={(firstName) => setFirstName(firstName)}
+                    {...register("firstName", {
+                      required: "名字為必填",
+                      maxLength: {
+                        value: 20,
+                        message: "名字最多不超過為20個字元",
+                      },
+                    })}
+                    error={errors.firstName ? errors.firstName.message : null}
                   />
                 </div>
                 <div className={styles.flexColumn}>
                   <AuthInput
                     label={"暱稱"}
-                    value={nickName}
+                    id={"nickName"}
+                    responseError={responseError}
                     placeholder={"請輸入您的暱稱"}
-                    onChange={(nickName) => setNickName(nickName)}
+                    {...register("nickName", {
+                      maxLength: {
+                        value: 20,
+                        message: "暱稱最多不超過為20個字元",
+                      },
+                    })}
+                    error={errors.nickName ? errors.nickName.message : null}
                   />
                 </div>
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   label={"帳號"}
-                  value={account}
-                  placeholder={"請輸入至少6個字元的帳號"}
+                  id={"account"}
+                  responseError={responseError}
+                  placeholder={"請輸入至少5個字元的帳號"}
                   required={true}
-                  onChange={(account) => setAccount(account)}
+                  {...register("account", {
+                    required: "帳號為必填",
+                    minLength: {
+                      value: 5,
+                      message: "帳號需至少為5個字元",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "帳號最多不超過50個字元",
+                    },
+                  })}
+                  error={errors.account ? errors.account.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   type="password"
                   label={"密碼"}
-                  value={password}
+                  id={"password"}
+                  responseError={responseError}
                   placeholder={
                     "請輸入最少8個字元，需包含至少一個大寫英文字母和一個數字"
                   }
                   required={true}
-                  onChange={(password) => setPassword(password)}
+                  {...register("password", {
+                    required: "密碼為必填",
+                    maxLength: {
+                      value: 20,
+                      message: "密碼最多不超過20個字元",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "密碼需至少為8個字元",
+                    },
+                    pattern: {
+                      value: /^(?=.*[A-Z])(?=.*\d).{8,20}$/,
+                      message: "密碼格式錯誤",
+                    },
+                  })}
+                  error={errors.password ? errors.password.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   type="password"
                   label={"確認密碼"}
-                  value={checkPassword}
+                  id={"checkPassword"}
+                  responseError={responseError}
                   placeholder={"請再輸入一次密碼"}
                   required={true}
-                  onChange={(checkPassword) => setCheckPassword(checkPassword)}
+                  {...register("checkPassword", {
+                    required: "確認密碼為必填",
+                    validate: (value) =>
+                      value === getValues("password") || "確認密碼與密碼不一致",
+                  })}
+                  error={
+                    errors.checkPassword ? errors.checkPassword.message : null
+                  }
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   label={"身分證字號"}
-                  value={nationalId}
+                  id={"nationalId"}
+                  responseError={responseError}
                   placeholder={"請輸入正確的身分證字號（第一碼為大寫英文字母）"}
                   required={true}
-                  onChange={(nationalId) => setNationalId(nationalId)}
+                  {...register("nationalId", {
+                    required: "身分證字號為必填",
+                    maxLength: {
+                      value: 10,
+                      message: "身分證字號最多不超過10個字元",
+                    },
+                    pattern: {
+                      value: /^[A-Za-z][12]\d{8}$/,
+                      message: "身分證字號格式錯誤",
+                    },
+                  })}
+                  error={errors.nationalId ? errors.nationalId.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   type="email"
                   label={"Email"}
-                  value={email}
+                  id={"email"}
+                  responseError={responseError}
                   placeholder={"請輸入有效的Email"}
                   required={true}
-                  onChange={(email) => setEmail(email)}
+                  {...register("email", {
+                    required: "Email為必填",
+                    maxLength: {
+                      value: 200,
+                      message: "Email最多不超過10個字元",
+                    },
+                    pattern: {
+                      value:
+                        /^[\w-]+(\.[\w-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,100})$/i,
+                      message: "Email格式錯誤",
+                    },
+                  })}
+                  error={errors.email ? errors.email.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
@@ -215,44 +317,74 @@ const SignUpPage = () => {
                     name="gender"
                     value="male"
                     required
-                    checked={gender === "male"}
-                    onChange={handleGenderChange}
+                    defaultChecked={register("gender").value === "male"}
+                    {...register("gender", {
+                      required: "性別為必填",
+                    })}
                   />
                   <span>男性</span>
                   <input
                     type="radio"
                     name="gender"
                     value="female"
-                    checked={gender === "female"}
-                    onChange={handleGenderChange}
+                    defaultChecked={register("gender").value === "female"}
+                    {...register("gender", {
+                      required: "性別為必填",
+                    })}
                   />
                   <span>女性</span>
                 </div>
+                {responseError &&
+                  responseError.includes("性別與身分證不相符") && (
+                    <span className={styles.error}>性別與身分證不相符</span>
+                  )}
+                {errors.gender && (
+                  <span className={styles.error}>{errors.gender.message}</span>
+                )}
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   type="date"
                   label={"出生日期"}
-                  value={birthdate}
+                  id={"birthdate"}
+                  responseError={responseError}
                   required={true}
-                  onChange={(birthdate) => setBirthdate(birthdate)}
+                  {...register("birthdate", {
+                    required: "出生日期為必填",
+                  })}
+                  error={errors.birthdate ? errors.birthdate.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   label={"手機"}
-                  value={phoneNumber}
+                  id={"phoneNumber"}
+                  responseError={responseError}
                   required={true}
                   placeholder={"請輸入正確的手機號碼（例如：0912345678）"}
-                  onChange={(phoneNumber) => setPhoneNumber(phoneNumber)}
+                  {...register("phoneNumber", {
+                    required: "手機為必填",
+                    maxLength: {
+                      value: 10,
+                      message: "手機最多不超過10個字元",
+                    },
+
+                    pattern: {
+                      value: /^09\d{8}$/i,
+                      message: "手機格式錯誤",
+                    },
+                  })}
+                  error={errors.phoneNumber ? errors.phoneNumber.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   type="date"
                   label={"接觸羽球時間"}
-                  value={playSince}
-                  onChange={(playSince) => setPlaySince(playSince)}
+                  id={"playSince"}
+                  responseError={responseError}
+                  {...register("playSince", {})}
+                  error={errors.playSince ? errors.playSince.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
@@ -260,15 +392,24 @@ const SignUpPage = () => {
                 <textarea
                   rows="10"
                   name="introduction"
+                  className={`${errors.introduction ? styles.inputError : ""}`}
                   id="introduction"
-                  maxLength="150"
                   placeholder="請輸入您的個人簡介（最多150字元）"
-                  value={introduction}
-                  onChange={handleIntroductionChange}
+                  {...register("introduction", {
+                    maxLength: {
+                      value: 150,
+                      message: "個人簡介最多不超過150個字元",
+                    },
+                  })}
                 ></textarea>
+                {errors.introduction && (
+                  <span className={styles.error}>
+                    {errors.introduction.message}
+                  </span>
+                )}
               </div>
               <div className={`${styles.formGroup} ${styles.formButton}`}>
-                <AuthButton text={"註冊"} onClick={handleClick} />
+                <AuthButton text={"註冊"} type="submit" />
               </div>
               <div className={styles.singleSignOn}>
                 <img

@@ -21,7 +21,25 @@ form.form {
         display: flex;
         flex-direction: row;
         gap: 0.4rem;
+        .error {
+          margin-top: 0.3rem;
+          color: var(--error);
+          font-size: 0.85rem;
+          font-weight: 400;
+        }
+        .inputError {
+          border: 1px solid var(--error);
+        }
       }
+    }
+    .error {
+      margin-top: 0.3rem;
+      color: var(--error);
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+    .inputError {
+      border: 1px solid var(--error);
     }
     .flexRowCheck {
       display: flex;
