@@ -4,34 +4,31 @@ import Footer from "@/components/Layouts/Footer/Footer";
 import Main from "@/components/Main/Main";
 import Header from "@/components/Layouts/Header/Header";
 import AuthInput from "@/components/Auth/AuthInput";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthButton, AuthLinkText } from "@/components/Common/Auth";
 import { useAuth } from "@/contexts/AuthContext";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
-  const [account, setAccount] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth(); // 取出需要的狀態與方法
+  const [responseError, setResponseError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      account: "",
+      password: "",
+    },
+  });
 
-  const handleClick = async (event) => {
-    event.preventDefault(); // 阻止表單的預設行為
-
-    // 檢查帳號和密碼是否為空
-    if (account.length === 0) {
-      return;
-    }
-    if (password.length === 0) {
-      return;
-    }
-    const response = await login({
-      account,
-      password,
-    });
-
+  const onSubmit = async (data) => {
+    const response = await login(data);
     if (response.success) {
-      // 登入成功訊息
       Swal.fire({
         position: "top",
         title: "登入成功！",
@@ -39,17 +36,17 @@ const LoginPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
-      console.log(response);
-      return;
+      navigate("/");
+    } else {
+      Swal.fire({
+        position: "top",
+        title: "登入失敗！",
+        timer: 1500,
+        icon: "error",
+        showConfirmButton: false,
+      });
+      setResponseError(response.message);
     }
-    // 登入失敗訊息
-    Swal.fire({
-      position: "top",
-      title: "登入失敗！",
-      timer: 1500,
-      icon: "error",
-      showConfirmButton: false,
-    });
   };
 
   useEffect(() => {
@@ -63,30 +60,42 @@ const LoginPage = () => {
       <Header />
       <Main>
         <div className="container">
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={styles.formWrapper}>
               <div className={styles.formGroup}>
                 <AuthInput
                   label={"帳號"}
-                  value={account}
+                  id={"account"}
                   placeholder={"請輸入帳號或Email"}
-                  onChange={(account) => setAccount(account)}
+                  {...register("account", {
+                    required: "帳號或Email為必填",
+                  })}
+                  responseError={responseError}
+                  error={errors.account ? errors.account.message : null}
                 />
               </div>
               <div className={styles.formGroup}>
                 <AuthInput
                   type="password"
                   label={"密碼"}
-                  value={password}
+                  id={"password"}
                   placeholder={"請輸入密碼"}
-                  onChange={(password) => setPassword(password)}
+                  {...register("password", {
+                    required: "密碼為必填",
+                  })}
+                  responseError={responseError}
+                  error={errors.password ? errors.password.message : null}
                 />
               </div>
               <div className={`${styles.formGroup} ${styles.flexRowCheck}`}>
-                <AuthInput type={"checkbox"} label={"記住我"} />
+                <AuthInput
+                  type={"checkbox"}
+                  label={"記住我"}
+                  {...register("remember")}
+                />
               </div>
               <div className={`${styles.formGroup} ${styles.formButton}`}>
-                <AuthButton text={"登入"} onClick={handleClick} />
+                <AuthButton text={"登入"} type="submit" />
               </div>
               <div className={`${styles.formGroup} ${styles.formButton}`}>
                 <Link to="/signup">
