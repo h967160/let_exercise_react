@@ -3,6 +3,7 @@ import NavbarItem from "./NavbarItem";
 import NavbarIcon from "./NavbarIcon";
 import logo from "@/assets/images/logo.jpg";
 import hamburger from "@/assets/images/hamburger.png";
+import { Link } from "react-router-dom";
 
 const navItems = ["球團報名", "場地資訊", "討論區", "商城"];
 
@@ -16,9 +17,9 @@ const NavbarMenu = () => {
           alt="logo.jpg"
         />
         {/* eslint-disable-next-line*/}
-        <a href="#" className={styles.navbarBrandLink}>
+        <Link to="/" className={styles.navbarBrandLink}>
           運動揪團網
-        </a>
+        </Link>
       </div>
       {/* navbar-toggle */}
       <input
