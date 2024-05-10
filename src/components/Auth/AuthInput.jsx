@@ -54,6 +54,18 @@ const AuthInput = forwardRef(
         ) {
           return "性別與身分證不相符!";
         }
+        if (
+          responseError.includes("生日&球齡日期不得晚於今天") &&
+          (id === "birthdate" || id === "playSince")
+        ) {
+          return "生日&球齡日期不得晚於今天!";
+        }
+        if (
+          responseError.includes("球齡不得早於出生年月日") &&
+          id === "playSince"
+        ) {
+          return "球齡不得早於出生年月日!";
+        }
       }
       // 如果沒有符合的responseError，則回傳error
       return error;
