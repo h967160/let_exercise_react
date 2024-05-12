@@ -1,0 +1,76 @@
+form.form {
+  padding-top: 10%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10%;
+  .formWrapper {
+    border: 1px solid black;
+    padding: 3rem;
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px; /* 設置間距 */
+      & > label {
+        span {
+          color: red;
+          margin-left: 0.2rem;
+        }
+      }
+      // radio
+      .flexRowGender {
+        display: flex;
+        flex-direction: row;
+        gap: 0.4rem;
+        .error {
+          margin-top: 0.3rem;
+          color: var(--error);
+          font-size: 0.85rem;
+          font-weight: 400;
+        }
+        .inputError {
+          border: 1px solid var(--error);
+        }
+      }
+    }
+    .error {
+      margin-top: 0.3rem;
+      color: var(--error);
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+    .inputError {
+      border: 1px solid var(--error);
+    }
+    .flexRowCheck {
+      display: flex;
+      flex-direction: row;
+      gap: 0.4rem;
+    }
+    .formButton {
+      align-items: center;
+    }
+    .singleSignOn {
+      display: flex;
+      justify-content: space-around;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    // 控制姓/名/暱稱位置
+    .flexRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; /* 将子元素平均分配在行上 */
+      gap: 1rem;
+    }
+
+    .flexColumn {
+      display: flex;
+      flex-direction: column;
+      & > label {
+        margin-bottom: 0.4rem;
+      }
+    }
+  }
+}

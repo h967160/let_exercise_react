@@ -1,22 +1,19 @@
-import Header from "@/components/Layouts/Header/Header";
-import Footer from "@/components/Layouts/Footer/Footer";
-import { HomePage } from "@/pages/index";
+import { HomePage, LoginPage, SignUpPage } from "@/pages/index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
     <div className="App">
-      <Header />
       <BrowserRouter>
-        <Routes>
-          {/* <Route path="login" element={<LoginPage />} /> */}
-          {/* 
-          <Route path="signup" element={<SignUpPage />} />
-          <Route path="todo" element={<TodoPage />} /> */}
-          <Route path="*" element={<HomePage />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignUpPage />} />
+            <Route path="*" element={<HomePage />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
-      <Footer />
     </div>
   );
 }

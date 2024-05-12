@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Lets Exercise 專案介紹
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+想打球卻找不到朋友陪你一起打嗎？或有人有球技，卻不知道要去哪裡打球嗎？這個運動揪團網通通幫你解決這些問題！
 
-## Available Scripts
+此專案是以前後端分離開發模式進行，前端使用 React.js 作為框架，後端則是使用 Node.js Express 架設伺服器，搭配 MySQL 做資料存放。
 
-In the project directory, you can run:
+後端專案為：[let_exercise](https://github.com/kim1037/lets_exercise)。
 
-### `npm start`
+## Prerequisites - 開發環境
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 開發工具：Visual Studio Code v1.60.2
+- 框架：React.js v5.0.1
+- 專案建構工具：Create-React-App v5.0.1
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Used Packages - 使用套件
 
-### `npm test`
+- Axios v1.6.7
+- Craco v7.1.0
+- React Hook Form v7.51.4
+- React Router Dom v6.4.1
+- Json Web Token v9.0.2
+- Sweetalert2 v11.6.4
+- Sass v1.76.0
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation and execution - 安裝與執行步驟
 
-### `npm run build`
+1. 開啟終端機（Terminal）， clone 此專案至本機電腦。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+git clone https://github.com/h967160/let_exercise_react.git
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. 開啟終端機（Terminal），進入存放此專案的資料夾。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+cd lets_exercise_react
+```
 
-### `npm run eject`
+3. 安裝所需套件 - 請參見 package.json
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+4. 啟動專案
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. 當 terminal 出現以下字樣，表示伺服器已啟動
 
-## Learn More
+```
+You can now view let_exercise_react in the browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  Local:            http://localhost:3000
+  On Your Network:  http://192.168.0.12:3000
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Note that the development build is not optimized.
+To create a production build, use npm run build.
 
-### Code Splitting
+webpack compiled successfully
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+6. 如程式未自動打開專案網頁，請輸入以下網址：
 
-### Analyzing the Bundle Size
+```
+http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+7. 如欲停止伺服器
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+ctrl + c
+```

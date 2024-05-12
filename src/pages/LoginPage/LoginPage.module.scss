@@ -1,0 +1,39 @@
+form.form {
+  padding-top: 10%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10%;
+  .formWrapper {
+    border: 1px solid black;
+    padding: 3rem;
+    width: 30%;
+    height: 40%;
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px; /* 設置間距 */
+      // radio
+      .flex-row-gender {
+        display: flex;
+        flex-direction: row;
+        gap: 0.4rem;
+      }
+    }
+    .flexRowCheck {
+      display: flex;
+      flex-direction: row;
+      gap: 0.4rem;
+    }
+    .formButton {
+      align-items: center;
+    }
+    .singleSignOn {
+      display: flex;
+      justify-content: space-around;
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
