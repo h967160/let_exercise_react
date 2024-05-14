@@ -11,6 +11,8 @@ form.form {
       flex-direction: column;
       margin-bottom: 20px; /* 設置間距 */
       & > label {
+        margin-bottom: 0.4rem;
+        font-size: 1.1rem;
         span {
           color: red;
           margin-left: 0.2rem;
