@@ -1,10 +1,9 @@
 import axios from "axios";
-
-const authURL = "http://127.0.0.1:3000";
+import BASE_URL from "./baseUrl";
 
 export const login = async ({ account, password }) => {
   try {
-    const response = await axios.post(`${authURL}/users/signin`, {
+    const response = await axios.post(`${BASE_URL}/users/signin`, {
       account,
       password,
     });
@@ -33,7 +32,7 @@ export const signup = async ({
   phoneNumber,
 }) => {
   try {
-    const response = await axios.post(`${authURL}/users/signup`, {
+    const response = await axios.post(`${BASE_URL}/users/signup`, {
       nationalId,
       email,
       account,
