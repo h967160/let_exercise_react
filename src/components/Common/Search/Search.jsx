@@ -1,8 +1,8 @@
 import styles from "./Search.module.scss";
 
-const Search = () => {
+const Search = ({ className }) => {
   return (
-    <section className={styles.search}>
+    <section className={`${styles.search} ${className}`}>
       <select className="area cursor-point">
         <option value="">地區</option>
         <option value="area1">基隆市</option>

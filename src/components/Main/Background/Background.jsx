@@ -1,5 +1,5 @@
 import styles from "./Background.module.scss";
-import Search from "./Search";
+import Search from "@/components/Common/Search/Search";
 
 const Background = () => {
   return (

@@ -4,6 +4,8 @@ import Header from "@/components/Layouts/Header/Header";
 import Activity from "@/components/Activity/Activity";
 import Pagination from "@/components/Common/Pagination/Pagination";
 import { useActivity } from "@/contexts/ActivityContext";
+import Search from "@/components/Common/Search/Search";
+import styles from "./ActivityPage.module.scss";
 
 const ActivityPage = () => {
   const { pagination, goToPage, currentPage, setCurrentPage } = useActivity();
@@ -16,6 +18,7 @@ const ActivityPage = () => {
   return (
     <>
       <Header />
+      <Search className={styles.activitySearch} />
       <Main>
         <Activity />
       </Main>
