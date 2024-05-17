@@ -5,7 +5,12 @@ import logo from "@/assets/images/logo.jpg";
 import hamburger from "@/assets/images/hamburger.png";
 import { Link } from "react-router-dom";
 
-const navItems = ["球團報名", "場地資訊", "討論區", "商城"];
+const navItems = [
+  { label: "球團報名", path: "/activity" },
+  { label: "場地資訊", path: "" },
+  { label: "討論區", path: "" },
+  { label: "商城", path: "" },
+];
 
 const NavbarMenu = () => {
   return (
@@ -27,7 +32,7 @@ const NavbarMenu = () => {
         className={styles.navbarToggle}
         type="checkbox"
       />
-      <label for="navbarToggle" className={styles.burgerContainer}>
+      <label htmlFor="navbarToggle" className={styles.burgerContainer}>
         <img
           src={hamburger}
           className={styles.iconToggle}
@@ -37,8 +42,8 @@ const NavbarMenu = () => {
       {/* navbar links */}
       <nav className={styles.nav}>
         <ul className={styles.navList}>
-          {navItems.map((label, index) => (
-            <NavbarItem key={index} label={label} />
+          {navItems.map((item, index) => (
+            <NavbarItem key={index} label={item.label} path={item.path} />
           ))}
         </ul>
       </nav>
