@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthButton } from "@/components/Common/Auth";
 import Swal from "sweetalert2";
@@ -20,6 +20,7 @@ const SignUpPage = () => {
     handleSubmit,
     getValues,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -40,6 +41,54 @@ const SignUpPage = () => {
       phoneNumber: "",
     },
   });
+  const nationalId = watch("nationalId");
+
+  // 監聽身份證字號自動帶入性別
+  useEffect(() => {
+    if (nationalId) {
+      if (nationalId.charAt(1) === "1") {
+        setValue("gender", "male");
+      } else if (nationalId.charAt(1) === "2") {
+        setValue("gender", "female");
+      } else {
+        setValue("gender", "");
+      }
+    }
+  }, [nationalId, setValue]);
+
+  // 驗證生日
+  const validateBirthdate = (value) => {
+    // 驗證日期是否是未來日期
+    const selectedDate = new Date(value);
+    const currentDate = new Date();
+    if (selectedDate > currentDate) {
+      return "出生日期不得晚於今天";
+    }
+
+    // 驗證年齡是否滿九歲
+    const minDate = new Date(
+      currentDate.getFullYear() - 9,
+      currentDate.getMonth(),
+      currentDate.getDate() + 1
+    );
+    if (selectedDate > minDate) {
+      return "註冊年齡須年滿9歲";
+    }
+
+    return true;
+  };
+
+  // 驗證球齡
+  const validatePlaySince = (value) => {
+    const selectedDate = new Date(value);
+    const currentDate = new Date();
+
+    if (selectedDate > currentDate) {
+      return "球齡不得晚於今天";
+    }
+
+    return true;
+  };
 
   // 測試用一鍵輸入按鈕 之後會刪除
   const handleQuickFill = () => {
@@ -52,7 +101,6 @@ const SignUpPage = () => {
     setValue("checkPassword", "Test1111");
     setValue("nationalId", "P123456789");
     setValue("email", "test11@test.com");
-    setValue("gender", "male");
     setValue("birthdate", "1990-01-01");
     setValue("phoneNumber", "0912345678");
     setValue("playSince", "2020-03-01");
@@ -201,7 +249,7 @@ const SignUpPage = () => {
                   label={"帳號"}
                   id={"account"}
                   responseError={responseError}
-                  placeholder={"請輸入至少5個字元的帳號"}
+                  placeholder={"請輸入至少5個字元且含英數字的帳號"}
                   required={true}
                   {...register("account", {
                     required: "帳號為必填",
@@ -212,6 +260,10 @@ const SignUpPage = () => {
                     maxLength: {
                       value: 50,
                       message: "帳號最多不超過50個字元",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Z0-9_]+$/,
+                      message: "帳號格式錯誤",
                     },
                   })}
                   error={errors.account ? errors.account.message : null}
@@ -317,22 +369,20 @@ const SignUpPage = () => {
                     name="gender"
                     value="male"
                     required
-                    defaultChecked={register("gender").value === "male"}
                     {...register("gender", {
                       required: "性別為必填",
                     })}
                   />
-                  <span>男性</span>
+                  <label htmlFor="male">男性</label>
                   <input
                     type="radio"
                     name="gender"
                     value="female"
-                    defaultChecked={register("gender").value === "female"}
                     {...register("gender", {
                       required: "性別為必填",
                     })}
                   />
-                  <span>女性</span>
+                  <label htmlFor="female">女性</label>
                 </div>
                 {responseError &&
                   responseError.includes("性別與身分證不相符") && (
@@ -351,6 +401,7 @@ const SignUpPage = () => {
                   required={true}
                   {...register("birthdate", {
                     required: "出生日期為必填",
+                    validate: validateBirthdate,
                   })}
                   error={errors.birthdate ? errors.birthdate.message : null}
                 />
@@ -383,7 +434,9 @@ const SignUpPage = () => {
                   label={"接觸羽球時間"}
                   id={"playSince"}
                   responseError={responseError}
-                  {...register("playSince", {})}
+                  {...register("playSince", {
+                    validate: validatePlaySince,
+                  })}
                   error={errors.playSince ? errors.playSince.message : null}
                 />
               </div>
