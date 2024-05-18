@@ -6,19 +6,40 @@ import Pagination from "@/components/Common/Pagination/Pagination";
 import { useActivity } from "@/contexts/ActivityContext";
 import Search from "@/components/Common/Search/Search";
 import styles from "./ActivityPage.module.scss";
+import Swal from "sweetalert2";
 
 const ActivityPage = () => {
-  const { pagination, goToPage, currentPage, setCurrentPage } = useActivity();
+  const {
+    pagination,
+    goToPage,
+    currentPage,
+    setCurrentPage,
+    updateSearchParams,
+  } = useActivity();
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     goToPage(page); // 切換分頁
   };
 
+  const handleSearch = ({ regionId, level, date }) => {
+    if (!regionId) {
+      Swal.fire({
+        position: "top",
+        title: "請選擇地區",
+        timer: 1500,
+        icon: "error",
+        showConfirmButton: false,
+      });
+    } else {
+      updateSearchParams({ regionId, level, date });
+    }
+  };
+
   return (
     <>
       <Header />
-      <Search className={styles.activitySearch} />
+      <Search className={styles.activitySearch} onSearch={handleSearch} />
       <Main>
         <Activity />
       </Main>

@@ -21,24 +21,7 @@ section.search {
     padding: 0 5px;
     border-radius: 7px;
   }
-  input[type="date"] {
-    position: relative;
-    &::-webkit-datetime-edit {
-      display: none;
-    }
-    &::before {
-      content: attr(placeholder);
-    }
-    // 預設的日曆icon (目前移除後無法點擊)
-    &::-webkit-calendar-picker-indicator {
-      // display: none;
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-    }
-  }
+
   option {
     font-size: 1rem;
   }
