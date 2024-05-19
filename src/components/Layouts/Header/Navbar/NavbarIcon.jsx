@@ -34,16 +34,16 @@ const NavbarIcon = () => {
         alt="moon.png"
       />
       {/* user */}
-      <div class={styles.userDropdown}>
+      <div className={styles.userDropdown}>
         <input
           type="checkbox"
           id="userDropdownCheckbox"
-          class={`${styles.userDropdownToggle} ${styles.userDropdownCheckbox}`}
+          className={`${styles.userDropdownToggle} ${styles.userDropdownCheckbox}`}
         />
-        <label for="userDropdownCheckbox">
-          <img class="user-icon cursor-point" src={user} alt="user.png" />
+        <label htmlFor="userDropdownCheckbox">
+          <img className="user-icon cursor-point" src={user} alt="user.png" />
         </label>
-        <div class={styles.dropdownMenu}>
+        <div className={styles.dropdownMenu}>
           <ul className={styles.navList}>
             {generateNavItems().map((label, index) => (
               <NavbarItem

@@ -1,0 +1,36 @@
+section.activity {
+  padding-top: 300px;
+  .activityWrapper {
+    display: flex;
+    flex-direction: column;
+    .activityList {
+      display: flex;
+      flex-direction: column;
+      li {
+        display: flex;
+        align-items: center;
+        // border-bottom: 1px solid #ccc;
+      }
+      li > div {
+        flex: 1;
+      }
+      .activityHeader {
+        padding: 22px 40px;
+        background: #ff6600;
+        color: var(--white);
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+      .activityItem {
+        padding: 10px 40px;
+        height: 60px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;
+        &:hover {
+          background-color: var(--grey-100);
+        }
+      }
+    }
+  }
+}

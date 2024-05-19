@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthButton } from "@/components/Common/Auth";
+import { AuthButton } from "@/components/Common/Auth/Auth";
 import Swal from "sweetalert2";
 import styles from "./SignUpPage.module.scss";
 import Main from "@/components/Main/Main";

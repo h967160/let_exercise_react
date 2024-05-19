@@ -6,7 +6,7 @@ import Header from "@/components/Layouts/Header/Header";
 import AuthInput from "@/components/Auth/AuthInput";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthButton, AuthLinkText } from "@/components/Common/Auth";
+import { AuthButton, AuthLinkText } from "@/components/Common/Auth/Auth";
 import { useAuth } from "@/contexts/AuthContext";
 import { useForm } from "react-hook-form";
 
