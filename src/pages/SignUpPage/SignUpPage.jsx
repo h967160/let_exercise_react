@@ -263,7 +263,7 @@ const SignUpPage = () => {
                     },
                     pattern: {
                       value: /^[a-zA-Z0-9_]+$/,
-                      message: "帳號格式錯誤",
+                      message: "帳號格式僅能包含英數",
                     },
                   })}
                   error={errors.account ? errors.account.message : null}
