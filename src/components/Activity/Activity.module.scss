@@ -1,3 +1,4 @@
+// All Activity
 section.activity {
   padding-top: 300px;
   .activityWrapper {
@@ -29,6 +30,69 @@ section.activity {
         transition: background-color 0.3s, color 0.3s;
         &:hover {
           background-color: var(--grey-100);
+        }
+      }
+    }
+  }
+}
+
+// ActivityInfo
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* 间距 */
+
+  section.activityInfo {
+    grid-column: 1 / span 2;
+    padding-top: 10%;
+    margin-bottom: 4rem;
+    .activityInfoWrapper {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      .activityInfoImage,
+      .activityInfoText {
+        flex: 0 1 calc(50% - 1rem);
+        padding: 1rem;
+      }
+      .activityInfoImage {
+        width: 300px;
+        img {
+          max-width: 100%;
+          height: 350px;
+        }
+      }
+      .activityInfoText {
+        padding-left: 6rem;
+        .title {
+          font-size: 1.6rem;
+          margin-bottom: 1.5rem;
+          span {
+            display: inline-block;
+            border-bottom: 4px solid #51be78;
+            letter-spacing: 0.08rem;
+          }
+        }
+        p {
+          font-size: 1.1rem;
+          line-height: 1.8;
+        }
+      }
+      .buttonControl {
+        margin-top: 1rem;
+        .signupButton {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #51be78;
+          color: #fff;
+          font-size: 16px;
+          font-weight: bold;
+          border: none;
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+        }
+        .signupButton:hover {
+          background-color: #3f9e5f;
         }
       }
     }
