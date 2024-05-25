@@ -1,0 +1,43 @@
+section.hostUserInfo {
+  display: flex;
+  flex-direction: row;
+  margin-left: 6rem;
+  margin-bottom: 4rem;
+  padding: 0 4rem 0 4rem;
+  .hostUserInfoWrapper {
+    display: flex;
+    flex-direction: column;
+    .userImage {
+      margin-bottom: 0.5rem;
+      img {
+        width: 80px;
+        border-radius: 50%;
+        height: auto;
+      }
+    }
+    .userInfoRating {
+      .ratingWrapper {
+        display: flex;
+        gap: 10px;
+        img {
+          width: 16px;
+          height: 16px;
+        }
+        .rating {
+          font-size: 1rem;
+        }
+      }
+    }
+    .userInfoText {
+      margin-top: 0.5rem;
+      width: 80%;
+      p {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+      .introductionText {
+        text-align: justify;
+      }
+    }
+  }
+}
