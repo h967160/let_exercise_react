@@ -37,11 +37,6 @@ section.activity {
 }
 
 // ActivityInfo
-.container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px; /* 间距 */
-
   section.activityInfo {
     grid-column: 1 / span 2;
     padding-top: 10%;
@@ -97,4 +92,3 @@ section.activity {
       }
     }
   }
-}
