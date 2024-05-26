@@ -1,5 +1,5 @@
 import styles from "./Activity.module.scss";
-import { formatDate, formatTime } from "@/utils/dateFormat";
+import { formatDate, formatTime } from "@/utils/format";
 
 const ActivityItem = ({
   arenaName,
