@@ -5,8 +5,20 @@ import ActivityInfo from "@/components/Activity/ActivityInfo";
 import ArenaInfo from "@/components/Arena/ArenaInfo";
 import styles from "./ActivityInfo.module.scss";
 import UserInfo from "@/components/User/UserInfo";
+import { useParams } from "react-router-dom";
+import { useActivity } from "@/contexts/ActivityContext";
+import { useEffect } from "react";
 
 const ActivityInfoPage = () => {
+  const { id } = useParams();
+  const { fetchActivity } = useActivity();
+
+  useEffect(() => {
+    if (id) {
+      fetchActivity(id);
+    }
+  }, [id, fetchActivity]);
+
   return (
     <>
       <Header />

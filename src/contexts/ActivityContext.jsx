@@ -1,5 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { getAll } from "@/apis/activity";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+import { getAll, getActivity } from "@/apis/activity";
+import { useParams } from "react-router-dom";
 import { formatSearchDate } from "@/utils/dateFormat";
 
 const ActivityContext = createContext();
@@ -10,13 +17,15 @@ export const useActivity = () => {
 
 export const ActivityProvider = ({ children }) => {
   const [activities, setActivities] = useState([]);
-  const [pagination, setPagination] = useState({ totalPage: 0 }); // 初始化 pagination 對象
+  const [activity, setActivity] = useState(null);
+  const [pagination, setPagination] = useState({ totalPage: 0 });
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useState({
     regionId: "",
     date: "",
     level: "",
   });
+  const { id: activityId } = useParams();
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -43,20 +52,34 @@ export const ActivityProvider = ({ children }) => {
     if (params.date) {
       params.date = formatSearchDate(params.date);
     }
-    console.log(currentPage);
-    console.log(params);
-
     setSearchParams((prevParams) => ({ ...prevParams, ...params }));
     setCurrentPage(1);
   };
 
+  const fetchActivity = useCallback(async (activityId) => {
+    try {
+      const result = await getActivity(activityId);
+      setActivity(result.data);
+    } catch (error) {
+      console.error("Error fetching single activity:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (activityId) {
+      fetchActivity(activityId);
+    }
+  }, [activityId, fetchActivity]);
+
   const value = {
     activities,
+    activity,
     pagination,
     currentPage,
     setCurrentPage,
     goToPage,
     updateSearchParams,
+    fetchActivity,
   };
 
   return (

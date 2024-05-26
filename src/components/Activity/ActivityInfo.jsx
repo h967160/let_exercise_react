@@ -1,6 +1,12 @@
 import styles from "./Activity.module.scss";
+import { formatDate, formatTime } from "@/utils/dateFormat";
+import { useActivity } from "@/contexts/ActivityContext";
 
 const ActivityInfo = () => {
+  const { activity } = useActivity();
+  if (!activity) {
+    return null;
+  }
   return (
     <>
       <section className={styles.activityInfo}>
@@ -12,19 +18,28 @@ const ActivityInfo = () => {
             <h2 className={styles.title}>
               <span>活動資訊</span>
             </h2>
-            <p className="arenaName">場館：臺北體育館</p>
-            <p className="date">日期：2024/05/21 星期一</p>
-            <p className="time">時間：1200-1400</p>
-            <p className="level">程度：新手</p>
-            <p className="shuttlecockProvide">供球：是，SELECT B-09精選級</p>
-            <p className="fee">費用：170$</p>
-            <p className="numOfPeople">需求人數：5人</p>
-            <p className="totalPeople">總共人數：14人</p>
+            <p className="arenaName">場館：{activity.arenaName}</p>
+            <p className="date">日期：{formatDate(activity.date)}</p>
+            <p className="time">
+              時間：{formatTime(activity.timeStart)}-
+              {formatTime(activity.timeEnd)}
+            </p>
+            <p className="level">程度：{activity.level}</p>
+            <p className="shuttlecockProvide">
+              供球：
+              {activity.shuttlecockProvide
+                ? `是，${activity.shuttlecockName}`
+                : "否"}
+            </p>
+            <p className="fee">費用：{activity.fee}$</p>
+            <p className="numsOfPeople">需求人數：{activity.numsOfPeople}人</p>
+            <p className="totalPeople">總共人數：{activity.totalPeople}人</p>
+            <p className="currentJoinNums">
+              目前已報名：{activity.currentJoinNums}人
+            </p>
             <p className="description">
               描述：
-              <span>
-                新手友善～歡迎大家一起來打球唷！不要害羞快來一起玩吧！
-              </span>
+              <span>{activity.description}</span>
             </p>
             <div className={styles.buttonControl}>
               <button className={styles.signupButton}>我要報名</button>
