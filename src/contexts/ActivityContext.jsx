@@ -7,7 +7,8 @@ import {
 } from "react";
 import { getAll, getActivity } from "@/apis/activity";
 import { useParams } from "react-router-dom";
-import { formatSearchDate } from "@/utils/dateFormat";
+import { formatSearchDate } from "@/utils/format";
+import { useArena } from "./ArenaContext";
 
 const ActivityContext = createContext();
 
@@ -26,6 +27,7 @@ export const ActivityProvider = ({ children }) => {
     level: "",
   });
   const { id: activityId } = useParams();
+  const { fetchArena } = useArena();
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -56,14 +58,19 @@ export const ActivityProvider = ({ children }) => {
     setCurrentPage(1);
   };
 
-  const fetchActivity = useCallback(async (activityId) => {
-    try {
-      const result = await getActivity(activityId);
-      setActivity(result.data);
-    } catch (error) {
-      console.error("Error fetching single activity:", error);
-    }
-  }, []);
+  const fetchActivity = useCallback(
+    async (activityId) => {
+      try {
+        const result = await getActivity(activityId);
+        setActivity(result.data);
+        const arenaId = result.data.arenaId;
+        fetchArena(arenaId);
+      } catch (error) {
+        console.error("Error fetching single activity:", error);
+      }
+    },
+    [fetchArena]
+  );
 
   useEffect(() => {
     if (activityId) {
