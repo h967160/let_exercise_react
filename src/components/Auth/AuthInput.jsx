@@ -86,7 +86,6 @@ const AuthInput = forwardRef(
           ref={ref}
           required={required}
           onChange={onChange}
-          responseError={responseError}
           {...props}
         />
         {getResponseErrorMessage() && (
