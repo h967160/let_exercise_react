@@ -21,6 +21,8 @@ const UserInfo = () => {
   }, [isAuthenticated, fetchUserData]);
 
   const handleLoginButtonClick = () => {
+    // 儲存url可以在登入後重定向
+    localStorage.setItem("originalUrl", window.location.pathname);
     navigate("/login");
   };
 
