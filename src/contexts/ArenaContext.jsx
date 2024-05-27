@@ -14,7 +14,6 @@ export const ArenaProvider = ({ children }) => {
   const fetchArena = useCallback(async (arenaId) => {
     try {
       const result = await getArena(arenaId);
-      console.log("result.data: ", result.data);
       setArena(result.data);
     } catch (error) {
       console.error("Error fetching single arena:", error);

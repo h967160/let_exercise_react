@@ -9,6 +9,7 @@ import { getAll, getActivity } from "@/apis/activity";
 import { useParams } from "react-router-dom";
 import { formatSearchDate } from "@/utils/format";
 import { useArena } from "./ArenaContext";
+import { useUser } from "./UserContext";
 
 const ActivityContext = createContext();
 
@@ -28,6 +29,7 @@ export const ActivityProvider = ({ children }) => {
   });
   const { id: activityId } = useParams();
   const { fetchArena } = useArena();
+  const { fetchUserData } = useUser();
 
   useEffect(() => {
     const fetchActivities = async () => {
@@ -65,11 +67,13 @@ export const ActivityProvider = ({ children }) => {
         setActivity(result.data);
         const arenaId = result.data.arenaId;
         fetchArena(arenaId);
+        const hostId = result.data.hostId;
+        fetchUserData(hostId);
       } catch (error) {
         console.error("Error fetching single activity:", error);
       }
     },
-    [fetchArena]
+    [fetchArena, fetchUserData]
   );
 
   useEffect(() => {
