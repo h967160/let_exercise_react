@@ -1,6 +1,7 @@
 import styles from "./Activity.module.scss";
 import { formatDate, formatTime } from "@/utils/format";
 import { useActivity } from "@/contexts/ActivityContext";
+import { Button } from "../Common/Button/Button";
 
 const ActivityInfo = () => {
   const { activity } = useActivity();
@@ -41,9 +42,7 @@ const ActivityInfo = () => {
               描述：
               <span>{activity.description}</span>
             </p>
-            <div className={styles.buttonControl}>
-              <button className={styles.signupButton}>我要報名</button>
-            </div>
+            <Button text={"我要報名"}></Button>
           </div>
         </div>
       </section>

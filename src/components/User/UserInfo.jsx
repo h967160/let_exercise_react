@@ -6,6 +6,7 @@ import { useActivity } from "@/contexts/ActivityContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/contexts/UserContext";
 import { calculatePlaySince } from "@/utils/format";
+import { Button } from "../Common/Button/Button";
 
 const UserInfo = () => {
   const { activity } = useActivity();
@@ -52,7 +53,7 @@ const UserInfo = () => {
               </div>
             </>
           ) : (
-            <button onClick={handleLoginButtonClick}>看詳細</button>
+            <Button text={"詳細"} onClick={handleLoginButtonClick}></Button>
           )}
         </div>
       </div>
