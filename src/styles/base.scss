@@ -62,3 +62,37 @@ li {
 .cursor-point {
   cursor: pointer;
 }
+
+input,
+select,
+textarea {
+  border: 1px solid var(--input-border);
+  border-radius: 0px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2rem;
+  background: var(--background-color);
+  background-clip: padding-box;
+  border: 1px solid var(--input-border);
+  appearance: none;
+  border-radius: 0.25rem;
+  &:hover,
+  &:focus {
+    border: 3px solid var(--focus-color);
+  }
+}
+
+label {
+  font-size: 1rem;
+}
+
+select,
+input[type="text"] {
+  flex: 1;
+}
+
+textarea {
+  height: 150px;
+  resize: none;
+}
