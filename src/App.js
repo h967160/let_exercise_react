@@ -4,6 +4,7 @@ import {
   SignUpPage,
   ActivityPage,
   ActivityInfoPage,
+  CreateActivityPage,
 } from "@/pages/index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -24,6 +25,7 @@ function App() {
                   <Route path="signup" element={<SignUpPage />} />
                   <Route path="activity" element={<ActivityPage />} />
                   <Route path="activities/:id" element={<ActivityInfoPage />} />
+                  <Route path="addActivity" element={<CreateActivityPage />} />
                   <Route path="*" element={<HomePage />} />
                 </Routes>
               </ActivityProvider>

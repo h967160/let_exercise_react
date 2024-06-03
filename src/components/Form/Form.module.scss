@@ -1,0 +1,19 @@
+section.formBox {
+  padding-top: 10%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10%;
+  form {
+    min-width: 50%;
+    box-sizing: border-box;
+    .formGroup {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+      label {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}

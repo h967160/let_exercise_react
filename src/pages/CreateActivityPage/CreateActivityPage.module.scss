@@ -1,0 +1,35 @@
+.timeInput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  span {
+    text-align: center;
+    margin: 0 0.3rem 0 0.3rem;
+  }
+  input {
+    flex: 1;
+  }
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  label {
+    margin-bottom: 0.5rem;
+  }
+}
+.formRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  align-items: center;
+}
+label {
+  font-size: 1rem;
+}
+
+.submitButton {
+  float: right;
+}
