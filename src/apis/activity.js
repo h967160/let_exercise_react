@@ -21,3 +21,36 @@ export const getActivity = async (activityId) => {
     throw new Error("Failed to fetch activity: " + error.message);
   }
 };
+
+export const createActivity = async ({
+  arenaId,
+  shuttlecockId,
+  date,
+  timeStart,
+  timeEnd,
+  shuttlecockProvide,
+  level,
+  fee,
+  numsOfPeople,
+  totalPeople,
+  description,
+}) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/activities/create`, {
+      arenaId,
+      shuttlecockId,
+      date,
+      timeStart,
+      timeEnd,
+      shuttlecockProvide,
+      level,
+      fee,
+      numsOfPeople,
+      totalPeople,
+      description,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to create activity: " + error.message);
+  }
+};
