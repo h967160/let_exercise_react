@@ -34,6 +34,9 @@ const UserInfo = () => {
   return (
     <section className={styles.hostUserInfo}>
       <div className={styles.hostUserInfoWrapper}>
+        <h2 className={styles.title}>
+          <span>團主資訊</span>
+        </h2>
         <div className={styles.userImage}>
           <img src={activity.avatar} alt="user-avatar" />
         </div>

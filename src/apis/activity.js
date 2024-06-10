@@ -23,7 +23,6 @@ export const getActivity = async (activityId) => {
 };
 
 export const create = async (activityData) => {
-  
   //取得token
   const token = localStorage.getItem("token");
   if (!token) {
@@ -42,5 +41,14 @@ export const create = async (activityData) => {
     return response;
   } catch (error) {
     throw new Error("Failed to create activity: " + error.message);
+  }
+};
+
+export const getLevels = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/levels/all`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch activity: " + error.message);
   }
 };

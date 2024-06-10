@@ -5,7 +5,7 @@ import {
   useState,
   useCallback,
 } from "react";
-import { getAll, getActivity, create } from "@/apis/activity";
+import { getAll, getActivity, create, getLevels } from "@/apis/activity";
 import { useParams } from "react-router-dom";
 import { formatSearchDate } from "@/utils/format";
 import { useArena } from "./ArenaContext";
@@ -27,6 +27,7 @@ export const ActivityProvider = ({ children }) => {
     date: "",
     level: "",
   });
+  const [levels, setLevels] = useState([]);
   const { id: activityId } = useParams();
   const { fetchArena } = useArena();
   const { fetchUserData } = useUser();
@@ -101,6 +102,25 @@ export const ActivityProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    const fetchLevels = async () => {
+      try {
+        const result = await getLevels();
+        setLevels(result.data);
+      } catch (error) {
+        console.error("Error fetching levels:", error);
+      }
+    };
+
+    fetchLevels();
+  }, []);
+
+  // 根據id取得level名稱
+  const getLevelName = (levelId) => {
+    const levelName = levels.find((level) => level.id === levelId);
+    return levelName ? levelName.level : "Unknown";
+  };
+
   const value = {
     activities,
     activity,
@@ -111,6 +131,8 @@ export const ActivityProvider = ({ children }) => {
     updateSearchParams,
     fetchActivity,
     createActivity,
+    levels,
+    getLevelName,
   };
 
   return (

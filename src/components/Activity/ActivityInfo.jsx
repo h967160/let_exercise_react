@@ -4,7 +4,7 @@ import { useActivity } from "@/contexts/ActivityContext";
 import { Button } from "../Common/Button/Button";
 
 const ActivityInfo = () => {
-  const { activity } = useActivity();
+  const { activity, getLevelName } = useActivity();
   if (!activity) {
     return null;
   }
@@ -25,7 +25,7 @@ const ActivityInfo = () => {
               時間：{formatTime(activity.timeStart)}-
               {formatTime(activity.timeEnd)}
             </p>
-            <p className="level">程度：{activity.level}</p>
+            <p className="levelId">程度：{getLevelName(activity.levelId)}</p>
             <p className="shuttlecockProvide">
               供球：
               {activity.shuttlecockProvide

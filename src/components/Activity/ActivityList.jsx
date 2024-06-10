@@ -5,7 +5,7 @@ import { useActivity } from "@/contexts/ActivityContext";
 import { useNavigate } from "react-router-dom";
 
 const ActivityList = () => {
-  const { activities } = useActivity();
+  const { activities, getLevelName } = useActivity();
   const navigate = useNavigate();
 
   const handleItemClick = (activityId) => {
@@ -17,7 +17,7 @@ const ActivityList = () => {
         <div className="area">地點</div>
         <div className="date">日期</div>
         <div className="time">時間</div>
-        <div className="level">程度</div>
+        <div className="levelId">程度</div>
         <div className="shuttlecockProvide">供球</div>
         <div className="description">描述</div>
       </li>
@@ -30,7 +30,7 @@ const ActivityList = () => {
               date={activity.date}
               timeStart={activity.timeStart}
               timeEnd={activity.timeEnd}
-              level={activity.level}
+              level={getLevelName(activity.levelId)}
               shuttlecockProvide={activity.shuttlecockProvide}
               description={activity.description}
             />
