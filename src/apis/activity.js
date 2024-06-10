@@ -22,34 +22,24 @@ export const getActivity = async (activityId) => {
   }
 };
 
-export const createActivity = async ({
-  arenaId,
-  shuttlecockId,
-  date,
-  timeStart,
-  timeEnd,
-  shuttlecockProvide,
-  level,
-  fee,
-  numsOfPeople,
-  totalPeople,
-  description,
-}) => {
+export const create = async (activityData) => {
+  
+  //取得token
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("請先登入!");
+  }
   try {
-    const response = await axios.post(`${BASE_URL}/activities/create`, {
-      arenaId,
-      shuttlecockId,
-      date,
-      timeStart,
-      timeEnd,
-      shuttlecockProvide,
-      level,
-      fee,
-      numsOfPeople,
-      totalPeople,
-      description,
-    });
-    return response.data;
+    const response = await axios.post(
+      `${BASE_URL}/activities/create`,
+      activityData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
   } catch (error) {
     throw new Error("Failed to create activity: " + error.message);
   }

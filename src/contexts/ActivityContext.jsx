@@ -5,7 +5,7 @@ import {
   useState,
   useCallback,
 } from "react";
-import { getAll, getActivity } from "@/apis/activity";
+import { getAll, getActivity, create } from "@/apis/activity";
 import { useParams } from "react-router-dom";
 import { formatSearchDate } from "@/utils/format";
 import { useArena } from "./ArenaContext";
@@ -82,6 +82,25 @@ export const ActivityProvider = ({ children }) => {
     }
   }, [activityId, fetchActivity]);
 
+  const createActivity = async (activityData) => {
+    try {
+      console.log(
+        "Activity data received in createActivity function:",
+        activityData
+      );
+      const response = await create({
+        ...activityData,
+      });
+      console.log("Response received after creating activity:", response);
+      // 更新狀態，例如添加新創建的活動
+      setActivities((prevActivities) => [...prevActivities, response.data]);
+      return response.data;
+    } catch (error) {
+      console.error("Failed to create activity:", error);
+      throw new Error("Failed to create activity: " + error.message);
+    }
+  };
+
   const value = {
     activities,
     activity,
@@ -91,6 +110,7 @@ export const ActivityProvider = ({ children }) => {
     goToPage,
     updateSearchParams,
     fetchActivity,
+    createActivity,
   };
 
   return (

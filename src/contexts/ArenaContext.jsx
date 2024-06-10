@@ -20,6 +20,7 @@ export const ArenaProvider = ({ children }) => {
   const [selectedRegion, setSelectedRegion] = useState("");
   const [arenaSearch, setArenaSearch] = useState("");
   const [filteredArenas, setFilteredArenas] = useState([]);
+  const [selectedArenaId, setSelectedArenaId] = useState(null);
 
   const fetchArena = useCallback(async (arenaId) => {
     const result = await getArena(arenaId);
@@ -30,7 +31,11 @@ export const ArenaProvider = ({ children }) => {
   const fetchArenas = useCallback(async () => {
     try {
       const result = await getArenas();
-      setArenas(result.data);
+      const arenasData = result.data.map((arena) => ({
+        ...arena,
+        arenaId: arena.id, // 将 id 赋值给 arenaId
+      }));
+      setArenas(arenasData);
 
       // 使用 Map 組合縣市
       const regionsMap = new Map();
@@ -85,7 +90,14 @@ export const ArenaProvider = ({ children }) => {
         );
       }
 
+      // 添加 arenaId 屬性到篩選後的結果內
+      filteredArenasResult = filteredArenasResult.map((arena) => ({
+        ...arena,
+        arenaId: arena.id,
+      }));
+
       // 設置篩選後的結果
+      console.log(filteredArenasResult);
       setFilteredArenas(filteredArenasResult);
     };
 
@@ -95,6 +107,17 @@ export const ArenaProvider = ({ children }) => {
     }
   }, [arenas, selectedRegion, arenaSearch]);
 
+  const selectArena = useCallback(
+    async (arenaId) => {
+      setSelectedArenaId(arenaId);
+      const selectedArena = filteredArenas.find(
+        (arena) => arena.id === parseInt(arenaId)
+      );
+      setArena(selectedArena);
+    },
+    [filteredArenas]
+  );
+
   const value = {
     arena,
     arenas,
@@ -103,6 +126,8 @@ export const ArenaProvider = ({ children }) => {
     setSelectedRegion,
     arenaSearch,
     setArenaSearch,
+    selectArena,
+    selectedArenaId,
     filteredArenas,
     fetchArena,
     fetchArenas,
