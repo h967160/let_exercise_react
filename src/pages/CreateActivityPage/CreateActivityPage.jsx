@@ -413,7 +413,7 @@ const CreateActivityPage = () => {
                   required: "費用為必填",
                   validate: {
                     nonNegative: (value) =>
-                      parseFloat(value) >= 0 || "費用不得為負數",
+                      parseFloat(value) > 0 || "費用不得為負數或零",
                   },
                 })}
                 error={errors.fee?.message}
@@ -463,6 +463,10 @@ const CreateActivityPage = () => {
             placeholder="最多150字元"
             {...register("description", {
               required: "描述為必填",
+              maxLength: {
+                value: 150,
+                message: "描述最多不超過150個字元",
+              },
             })}
             error={errors.description?.message}
           />
