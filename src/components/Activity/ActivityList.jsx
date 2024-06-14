@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./Activity.module.scss";
 import ActivityItem from "./ActivityItem";
 import { useActivity } from "@/contexts/ActivityContext";

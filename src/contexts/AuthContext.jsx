@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
         return;
       } else {
         const tempPayload = jwt.decode(token);
-        console.log("Decoded Payload:", tempPayload); //添加
         setPayload(tempPayload);
         setIsAuthenticated(true);
       }
@@ -86,7 +85,6 @@ export const AuthProvider = ({ children }) => {
           if (response && response.status === "Success") {
             const { token } = response.data;
             const tempPayload = jwt.decode(token);
-            console.log("Decoded Payload on Login:", tempPayload); //這
             setPayload(tempPayload);
             setIsAuthenticated(true);
             localStorage.setItem("token", token);

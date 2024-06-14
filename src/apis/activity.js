@@ -40,7 +40,7 @@ export const create = async (activityData) => {
     );
     return response;
   } catch (error) {
-    throw new Error("Failed to create activity: " + error.message);
+    throw new Error(error.response.data.message);
   }
 };
 

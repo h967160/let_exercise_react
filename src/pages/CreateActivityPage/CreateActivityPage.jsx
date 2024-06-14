@@ -134,11 +134,16 @@ const CreateActivityPage = () => {
   const handleShuttlecockSearchChange = (e) => {
     const value = e.target.value;
     setShuttlecockSearch(value);
-    console.log("setShuttlecockSearch: ", value);
   };
-
-  const shuttlecockId = watch("shuttlecockId");
-  console.log("shuttlecockId: ", shuttlecockId);
+  // 驗證日期
+  const validateDate = (value) => {
+    const selectedDate = new Date(value);
+    const currentDate = new Date();
+    if (selectedDate <= currentDate) {
+      return "日期不得早於現在時間!";
+    }
+    return true;
+  };
 
   const onSubmit = async (formData) => {
     formData.numsOfPeople = parseInt(formData.numsOfPeople);
@@ -159,7 +164,7 @@ const CreateActivityPage = () => {
 
     formData.hostId = user && user.id;
     const response = await createActivity(formData);
-    if (response.status === "Success") {
+    if (response && response.status === "Success") {
       Swal.fire({
         position: "top",
         title: "成功建立活動！",
@@ -167,11 +172,13 @@ const CreateActivityPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
+      return;
     } else {
       Swal.fire({
         position: "top",
         title: "建立活動失敗！",
         timer: 1000,
+        text: response.message,
         icon: "error",
         showConfirmButton: false,
       });
@@ -316,21 +323,6 @@ const CreateActivityPage = () => {
             <label htmlFor="shuttlecockId">羽毛球型號</label>
           </div>
           <div className={styles.formRow}>
-            {/* <Select
-              id="shuttlecockId"
-              name="shuttlecockId"
-              options={
-                shuttlecocks
-                  ? shuttlecocks.map((shuttlecock) => ({
-                      value: shuttlecock.id,
-                      name: shuttlecock.name,
-                    }))
-                  : []
-              }
-              item={"請選擇羽毛球型號"}
-              disabled={isShuttlecockProvide === "2"}
-              {...register("shuttlecockId")}
-            /> */}
             <Select
               id="shuttlecockId"
               name="shuttlecockId"
@@ -357,6 +349,7 @@ const CreateActivityPage = () => {
               {...register("shuttlecockSearch")}
               value={shuttlecockSearch}
               onChange={handleShuttlecockSearchChange}
+              disabled={isShuttlecockProvide === "2"}
             />
           </div>
           <div className="errorPlaceholder">
@@ -372,6 +365,7 @@ const CreateActivityPage = () => {
               label={"日期"}
               {...register("date", {
                 required: "日期為必填",
+                validate: validateDate,
               })}
               error={errors.date?.message}
             />
@@ -417,6 +411,10 @@ const CreateActivityPage = () => {
                 placeholder="請輸入費用"
                 {...register("fee", {
                   required: "費用為必填",
+                  validate: {
+                    nonNegative: (value) =>
+                      parseFloat(value) >= 0 || "費用不得為負數",
+                  },
                 })}
                 error={errors.fee?.message}
               />
@@ -430,6 +428,10 @@ const CreateActivityPage = () => {
                 placeholder="請輸入需求人數"
                 {...register("numsOfPeople", {
                   required: "需求人數為必填",
+                  validate: {
+                    nonNegative: (value) =>
+                      parseFloat(value) > 0 || "需求人數不得為負數或零",
+                  },
                 })}
                 error={errors.numsOfPeople?.message}
               />
@@ -443,6 +445,10 @@ const CreateActivityPage = () => {
                 placeholder="請輸入總人數"
                 {...register("totalPeople", {
                   required: "總人數為必填",
+                  validate: {
+                    nonNegative: (value) =>
+                      parseFloat(value) > 0 || "總人數不得為負數或零",
+                  },
                 })}
                 error={errors.totalPeople?.message}
               />

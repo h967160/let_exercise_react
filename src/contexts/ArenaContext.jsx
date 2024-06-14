@@ -95,9 +95,7 @@ export const ArenaProvider = ({ children }) => {
       }));
 
       // 設置篩選後的結果
-      console.log(filteredArenasResult);
       setFilteredArenas(filteredArenasResult);
-      console.log("Filtered arenas:", filteredArenasResult);
     };
 
     // 檢查是否進行了縣市選擇或者關鍵字輸入

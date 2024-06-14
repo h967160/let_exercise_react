@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { formatSearchDate } from "@/utils/format";
 import { useArena } from "./ArenaContext";
 import { useUser } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 const ActivityContext = createContext();
 
@@ -31,22 +32,40 @@ export const ActivityProvider = ({ children }) => {
   const { id: activityId } = useParams();
   const { fetchArena } = useArena();
   const { fetchUserData } = useUser();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const fetchActivities = async () => {
+  //     try {
+  //       const { regionId, date, level } = searchParams;
+  //       const result = await getAll(currentPage, regionId, date, level);
+  //       if (result) {
+  //         setActivities(result.data);
+  //         setPagination(result.pagination);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching activities:", error);
+  //     }
+  //   };
+
+  //   fetchActivities();
+  // }, [currentPage, searchParams]);
+  const fetchActivities = async () => {
+    try {
+      const { regionId, date, level } = searchParams;
+      const result = await getAll(currentPage, regionId, date, level);
+      if (result) {
+        setActivities(result.data);
+        setPagination(result.pagination);
+      }
+    } catch (error) {
+      console.error("Error fetching activities:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const { regionId, date, level } = searchParams;
-        const result = await getAll(currentPage, regionId, date, level);
-        if (result) {
-          setActivities(result.data);
-          setPagination(result.pagination);
-        }
-      } catch (error) {
-        console.error("Error fetching activities:", error);
-      }
-    };
-
     fetchActivities();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchParams]);
 
   const goToPage = (page) => {
@@ -85,20 +104,16 @@ export const ActivityProvider = ({ children }) => {
 
   const createActivity = async (activityData) => {
     try {
-      console.log(
-        "Activity data received in createActivity function:",
-        activityData
-      );
       const response = await create({
         ...activityData,
       });
-      console.log("Response received after creating activity:", response);
       // 更新狀態，例如添加新創建的活動
       setActivities((prevActivities) => [...prevActivities, response.data]);
+      await fetchActivities();
+      navigate("/activity", { replace: true });
       return response.data;
     } catch (error) {
-      console.error("Failed to create activity:", error);
-      throw new Error("Failed to create activity: " + error.message);
+      return { status: "Error", message: error.message };
     }
   };
 
@@ -133,6 +148,7 @@ export const ActivityProvider = ({ children }) => {
     createActivity,
     levels,
     getLevelName,
+    fetchActivities,
   };
 
   return (

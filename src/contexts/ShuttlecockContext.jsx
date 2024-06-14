@@ -18,7 +18,6 @@ export const ShuttlecockProvider = ({ children }) => {
         const result = await getAll();
         setShuttlecocks(result.data); // 將 API 回傳的資料設置到狀態中
         setFilteredShuttlecocks(result.data); // 初始化時，設置篩選後的羽毛球資料與全部資料相同
-        console.log("result.data: ", result.data); // 輸出從 API 取得的資料
       } catch (error) {
         console.error("Error fetching shuttlecocks:", error);
       }
