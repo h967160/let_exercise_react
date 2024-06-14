@@ -49,6 +49,6 @@ export const getLevels = async () => {
     const response = await axios.get(`${BASE_URL}/levels/all`);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch activity: " + error.message);
+    throw new Error("Failed to fetch levels: " + error.message);
   }
 };

@@ -1,9 +1,9 @@
 import styles from "./Form.module.scss";
-const FormBox = ({ children }) => {
+const FormBox = ({ children, onSubmit }) => {
   return (
     <div className="container">
       <section className={styles.formBox}>
-        <form>{children}</form>
+        <form onSubmit={onSubmit}>{children}</form>
       </section>
     </div>
   );

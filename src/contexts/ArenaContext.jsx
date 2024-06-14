@@ -1,4 +1,4 @@
-import { getArena, getArenas } from "@/apis/arena";
+import { getArena, getArenas, getRegions } from "@/apis/arena";
 import {
   createContext,
   useContext,
@@ -36,21 +36,6 @@ export const ArenaProvider = ({ children }) => {
         arenaId: arena.id, // 将 id 赋值给 arenaId
       }));
       setArenas(arenasData);
-
-      // 使用 Map 組合縣市
-      const regionsMap = new Map();
-      result.data.forEach((arena) => {
-        if (!regionsMap.has(arena.regionId)) {
-          regionsMap.set(arena.regionId, {
-            regionId: arena.regionId,
-            region: arena.region,
-          });
-        }
-      });
-
-      // Map轉為Array,取得各縣市唯一值
-      const uniqueRegions = Array.from(regionsMap.values());
-      setRegions(uniqueRegions);
     } catch (error) {
       console.error("Error fetching arenas:", error);
     }
@@ -59,6 +44,19 @@ export const ArenaProvider = ({ children }) => {
   useEffect(() => {
     fetchArenas();
   }, [fetchArenas]);
+
+  useEffect(() => {
+    const fetchRegions = async () => {
+      try {
+        const result = await getRegions();
+        setRegions(result.data);
+      } catch (error) {
+        console.error("Error fetching regions:", error);
+      }
+    };
+
+    fetchRegions();
+  }, []);
 
   useEffect(() => {
     const filterArenas = () => {
@@ -99,6 +97,7 @@ export const ArenaProvider = ({ children }) => {
       // 設置篩選後的結果
       console.log(filteredArenasResult);
       setFilteredArenas(filteredArenasResult);
+      console.log("Filtered arenas:", filteredArenasResult);
     };
 
     // 檢查是否進行了縣市選擇或者關鍵字輸入
