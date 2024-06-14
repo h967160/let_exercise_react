@@ -27,7 +27,12 @@ const CreateActivityPage = () => {
     selectArena,
   } = useArena();
   const { createActivity, levels } = useActivity();
-  const { shuttlecocks } = useShuttlecock();
+  const {
+    shuttlecocks,
+    shuttlecockSearch,
+    setShuttlecockSearch,
+    filteredShuttlecocks,
+  } = useShuttlecock();
   const {
     register,
     handleSubmit,
@@ -125,6 +130,15 @@ const CreateActivityPage = () => {
     const value = e.target.value;
     setArenaSearch(value); // 使用 setArenaSearch 更新 arenaSearch 的值
   };
+
+  const handleShuttlecockSearchChange = (e) => {
+    const value = e.target.value;
+    setShuttlecockSearch(value);
+    console.log("setShuttlecockSearch: ", value);
+  };
+
+  const shuttlecockId = watch("shuttlecockId");
+  console.log("shuttlecockId: ", shuttlecockId);
 
   const onSubmit = async (formData) => {
     formData.numsOfPeople = parseInt(formData.numsOfPeople);
@@ -302,7 +316,7 @@ const CreateActivityPage = () => {
             <label htmlFor="shuttlecockId">羽毛球型號</label>
           </div>
           <div className={styles.formRow}>
-            <Select
+            {/* <Select
               id="shuttlecockId"
               name="shuttlecockId"
               options={
@@ -316,6 +330,24 @@ const CreateActivityPage = () => {
               item={"請選擇羽毛球型號"}
               disabled={isShuttlecockProvide === "2"}
               {...register("shuttlecockId")}
+            /> */}
+            <Select
+              id="shuttlecockId"
+              name="shuttlecockId"
+              options={
+                shuttlecockSearch === ""
+                  ? shuttlecocks.map((shuttlecock) => ({
+                      value: shuttlecock.id,
+                      name: shuttlecock.name,
+                    }))
+                  : filteredShuttlecocks.map((shuttlecock) => ({
+                      value: shuttlecock.id,
+                      name: shuttlecock.name,
+                    }))
+              }
+              item={"請選擇羽毛球型號"}
+              disabled={isShuttlecockProvide === "2"}
+              {...register("shuttlecockId")}
             />
             <Input
               type="text"
@@ -323,6 +355,8 @@ const CreateActivityPage = () => {
               name="shuttlecockSearch"
               placeholder="請輸入型號"
               {...register("shuttlecockSearch")}
+              value={shuttlecockSearch}
+              onChange={handleShuttlecockSearchChange}
             />
           </div>
           <div className="errorPlaceholder">
