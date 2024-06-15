@@ -1,0 +1,40 @@
+section.arenaInfo {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  margin-bottom: 4rem;
+  .arenaInfoWrapper {
+    display: flex;
+    flex-direction: row;
+    .arenaInfoText {
+      .title {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+        span {
+          display: inline-block;
+          border-bottom: 4px solid #51be78;
+          letter-spacing: 0.08rem;
+        }
+      }
+      p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+      .website {
+        text-wrap: nowrap;
+      }
+      .descriptionText {
+        text-align: justify;
+      }
+    }
+    .arenaInfoImage {
+      margin-top: 4rem;
+      margin-left: 3rem;
+      img {
+        width: 200px;
+        height: 200px;
+        border-radius: 5px;
+      }
+    }
+  }
+}

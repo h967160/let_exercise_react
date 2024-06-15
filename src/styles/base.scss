@@ -62,3 +62,49 @@ li {
 .cursor-point {
   cursor: pointer;
 }
+
+input,
+select,
+textarea {
+  border: 1px solid var(--input-border);
+  border-radius: 0px;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2rem;
+  background: var(--background-color);
+  background-clip: padding-box;
+  border: 1px solid var(--input-border);
+  appearance: none;
+  border-radius: 0.25rem;
+  &:hover,
+  &:focus {
+    border: 3px solid var(--focus-color);
+  }
+}
+
+label {
+  font-size: 1rem;
+}
+
+select,
+input[type="text"] {
+  flex: 1;
+}
+
+textarea {
+  height: 150px;
+  resize: none;
+}
+
+.errorPlaceholder {
+  min-height: 1.2rem; /* 設置一個足夠的最小高度，以便容納可能的錯誤訊息 */
+  display: flex;
+  align-items: center; /* 垂直居中對齊 */
+  .error {
+    margin-top: 0.3rem; /* 設置一個頂部間距，與其他元素區分開來 */
+    color: var(--error); /* 使用定義的錯誤訊息顏色 */
+    font-size: 0.85rem; /* 適當的字體大小 */
+    font-weight: 400; /* 適當的字體粗細 */
+  }
+}

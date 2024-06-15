@@ -36,7 +36,6 @@ const LoginPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
-      navigate("/");
     } else {
       Swal.fire({
         position: "top",
@@ -51,7 +50,14 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      const originalUrl = localStorage.getItem("originalUrl");
+      // 如果有url則重定向
+      if (originalUrl) {
+        navigate(originalUrl);
+      } else {
+        navigate("/");
+      }
+      localStorage.removeItem("originalUrl");
     }
   }, [navigate, isAuthenticated]);
 

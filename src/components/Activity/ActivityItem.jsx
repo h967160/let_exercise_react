@@ -1,5 +1,5 @@
 import styles from "./Activity.module.scss";
-import { formatDate, formatTime } from "@/utils/dateFormat";
+import { formatDate, formatTime } from "@/utils/format";
 
 const ActivityItem = ({
   arenaName,
@@ -10,12 +10,19 @@ const ActivityItem = ({
   shuttlecockProvide,
   description,
 }) => {
+  // 檢查日期是否有效，如果無效則返回空字串
+  const formattedDate = date ? formatDate(date) : "";
+
+  // 檢查時間是否有效，如果無效則返回空字串
+  const formattedTimeStart = timeStart ? formatTime(timeStart) : "";
+  const formattedTimeEnd = timeEnd ? formatTime(timeEnd) : "";
+
   return (
     <li className={`${styles.activityItem} cursor-point`}>
       <div className="arenaName">{arenaName}</div>
-      <div className="date">{formatDate(date)}</div>
+      <div className="date">{formattedDate}</div>
       <div className="time">
-        {formatTime(timeStart)}-{formatTime(timeEnd)}
+        {formattedTimeStart} - {formattedTimeEnd}
       </div>
       <div className="level">{level}</div>
       <div className="shuttlecockProvide">

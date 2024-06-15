@@ -23,10 +23,10 @@ const ActivityPage = () => {
   };
 
   const handleSearch = ({ regionId, level, date }) => {
-    if (!regionId) {
+    if (!regionId && !level && !date) {
       Swal.fire({
         position: "top",
-        title: "請選擇地區",
+        title: "請選擇搜尋項目",
         timer: 1500,
         icon: "error",
         showConfirmButton: false,
