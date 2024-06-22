@@ -217,7 +217,7 @@ const CreateActivityPage = () => {
               type="text"
               id="arenaSearch"
               name="arenaSearch"
-              placeholder="請輸入場館"
+              placeholder="搜尋場館"
               value={arenaSearch}
               onChange={handleArenaSearchChange}
             />
@@ -345,7 +345,7 @@ const CreateActivityPage = () => {
               type="text"
               id="shuttlecockSearch"
               name="shuttlecockSearch"
-              placeholder="請輸入型號"
+              placeholder="搜尋型號"
               {...register("shuttlecockSearch")}
               value={shuttlecockSearch}
               onChange={handleShuttlecockSearchChange}
@@ -413,7 +413,7 @@ const CreateActivityPage = () => {
                   required: "費用為必填",
                   validate: {
                     nonNegative: (value) =>
-                      parseFloat(value) > 0 || "費用不得為負數或零",
+                      parseFloat(value) >= 0 || "費用不得為負數",
                   },
                 })}
                 error={errors.fee?.message}
