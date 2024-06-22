@@ -12,6 +12,7 @@ import { ActivityProvider } from "./contexts/ActivityContext";
 import { ArenaProvider } from "./contexts/ArenaContext";
 import { UserProvider } from "./contexts/UserContext";
 import { ShuttlecockProvider } from "./contexts/ShuttlecockContext";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   return (
@@ -23,17 +24,21 @@ function App() {
               <ActivityProvider>
                 <ShuttlecockProvider>
                   <Routes>
-                    <Route path="login" element={<LoginPage />} />
-                    <Route path="signup" element={<SignUpPage />} />
-                    <Route path="activity" element={<ActivityPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/activities" element={<ActivityPage />} />
                     <Route
-                      path="activities/:id"
+                      path="/activities/:id"
                       element={<ActivityInfoPage />}
                     />
-                    <Route
-                      path="addActivity"
-                      element={<CreateActivityPage />}
-                    />
+                    {/* 需登入驗證路由 */}
+                    <Route element={<ProtectedRoute />}>
+                      <Route
+                        path="/activities/create"
+                        element={<CreateActivityPage />}
+                      />
+                    </Route>
+                    {/* 非以上路由則跳轉到首頁 */}
                     <Route path="*" element={<HomePage />} />
                   </Routes>
                 </ShuttlecockProvider>
