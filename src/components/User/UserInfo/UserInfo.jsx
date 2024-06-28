@@ -6,7 +6,7 @@ import { useActivity } from "@/contexts/ActivityContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/contexts/UserContext";
 import { calculatePlaySince } from "@/utils/format";
-import { Button } from "../Common/Button/Button";
+import { Button } from "../../Common/Button/Button";
 
 const UserInfo = () => {
   const { activity } = useActivity();

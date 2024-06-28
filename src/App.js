@@ -6,6 +6,7 @@ import {
   ActivityInfoPage,
   CreateActivityPage,
   EditActivityPage,
+  UserProfilePage,
 } from "@/pages/index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignUpPage />} />
                     <Route path="/activities" element={<ActivityPage />} />
+                    <Route path="/profile" element={<UserProfilePage />} />
                     <Route
                       path="/activities/:id"
                       element={<ActivityInfoPage />}
