@@ -52,3 +52,25 @@ export const getLevels = async () => {
     throw new Error("Failed to fetch levels: " + error.message);
   }
 };
+
+export const update = async (activityId, updatedData) => {
+  // 取得 token
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("請先登入!");
+  }
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/activities/edit/${activityId}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};

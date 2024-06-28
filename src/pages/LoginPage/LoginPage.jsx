@@ -111,7 +111,7 @@ const LoginPage = () => {
                 <AuthButton text={"登入"} type="submit" />
               </div>
               <div className={`${styles.formGroup} ${styles.formButton}`}>
-                <Link to="/users/signup">
+                <Link to="/signup">
                   <AuthLinkText text={"註冊"}></AuthLinkText>
                 </Link>
               </div>

@@ -1,0 +1,49 @@
+.timeInput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .inputWithError {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .timeRangeSeparator {
+    text-align: center;
+    margin: 0 0.3rem 0 0.3rem;
+  }
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  label {
+    margin-bottom: 0.5rem;
+  }
+}
+.formRow {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap; /* 讓子元素換行 */
+  height: 100%;
+  .selectContainer {
+    display: flex;
+    flex-direction: column; /* 將錯誤訊息顯示在下方 */
+    flex: 1;
+  }
+  .InputBox {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}
+label {
+  font-size: 1rem;
+}
+
+.submitButton {
+  float: right;
+}

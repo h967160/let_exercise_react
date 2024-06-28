@@ -5,6 +5,7 @@ import {
   ActivityPage,
   ActivityInfoPage,
   CreateActivityPage,
+  EditActivityPage,
 } from "@/pages/index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -30,6 +31,10 @@ function App() {
                     <Route
                       path="/activities/:id"
                       element={<ActivityInfoPage />}
+                    />
+                    <Route
+                      path="/activities/:id/edit"
+                      element={<EditActivityPage />}
                     />
                     {/* 需登入驗證路由 */}
                     <Route element={<ProtectedRoute />}>
