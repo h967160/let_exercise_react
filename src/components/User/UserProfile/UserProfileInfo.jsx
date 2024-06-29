@@ -9,7 +9,7 @@ const UserProfileInfo = () => {
           <figure className={styles.avatarBox}>
             <img
               src="https://xsgames.co/randomusers/assets/avatars/male/7.jpg"
-              alt="user avatar"
+              alt="user-avatar"
             />
           </figure>
         </div>
@@ -37,7 +37,10 @@ const UserProfileInfo = () => {
             </div>
           </div>
         </div>
-        <Button text={"編輯個人資料"}></Button>
+        <div className={styles.buttonBox}>
+          <Button text={"我要開團"} className={styles.createButton}></Button>
+          <Button text={"個人資料"} className={styles.editButton}></Button>
+        </div>
       </div>
     </section>
   );
