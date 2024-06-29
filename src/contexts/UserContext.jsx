@@ -8,11 +8,13 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const fetchUserData = useCallback(async (userId) => {
-    if (userId) {
+    try {
       const result = await getUserData(userId);
-      if (result) {
-        setUser(result.data.user);
-      }
+      setUser(result.data.user); // 假設 API 返回的數據結構中有一個 user 屬性
+      return result.data.user; // 返回 user 數據
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
     }
   }, []);
 

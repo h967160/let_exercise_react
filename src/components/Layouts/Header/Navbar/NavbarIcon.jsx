@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 const navItems = [
   { label: "登入", path: "/login" },
   { label: "註冊", path: "/signup" },
-  { label: "新增活動", path: "/activities/create" },
+  { label: "我的活動", path: "/profile" },
   { label: "資料設定", path: "/settings" }, //還沒做
   { label: "帳號登出", path: "/logout" },
 ];
@@ -19,7 +19,7 @@ const NavbarIcon = () => {
   // 根據是否登入顯示
   const generateNavItems = () => {
     if (isAuthenticated) {
-      return ["資料設定", "新增活動", "帳號登出"];
+      return ["資料設定", "我的活動", "帳號登出"];
     } else {
       return ["登入", "註冊"];
     }
