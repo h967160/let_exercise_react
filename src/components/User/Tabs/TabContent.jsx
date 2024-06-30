@@ -31,19 +31,23 @@ const TabContext = ({ activeTab }) => {
         return (
           <section className={styles.tabContent}>
             <div className={styles.cardContainer}>
-              {userActivities.map((activities) => (
-                <ActivityCard
-                  key={activities.id}
-                  activityId={activities.id}
-                  hostId={activities.hostId}
-                  userId={user.id}
-                  arenaName={activities.arenaName}
-                  date={activities.date}
-                  timeStart={activities.timeStart}
-                  timeEnd={activities.timeEnd}
-                  levelId={activities.levelId}
-                />
-              ))}
+              {userActivities && userActivities.length > 0 ? (
+                userActivities.map((activity) => (
+                  <ActivityCard
+                    key={activity.id}
+                    activityId={activity.id}
+                    hostId={activity.hostId}
+                    userId={user.id}
+                    arenaName={activity.arenaName}
+                    date={activity.date}
+                    timeStart={activity.timeStart}
+                    timeEnd={activity.timeEnd}
+                    levelId={activity.levelId}
+                  />
+                ))
+              ) : (
+                <h3>目前還沒有開團過哦！</h3>
+              )}
             </div>
           </section>
         );
