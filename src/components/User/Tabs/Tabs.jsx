@@ -1,24 +1,29 @@
 import styles from "./Tabs.module.scss";
 
-const Tabs = () => {
+const Tabs = ({ activeTab, handleTabChange }) => {
+  const tabs = [
+    { id: "followers", text: "我的粉絲" },
+    { id: "following", text: "我的追蹤" },
+    { id: "created-activities", text: "我的開團" },
+    { id: "joined-activities", text: "我的報名" },
+  ];
+
+  const Tab = ({ tabId, tabText }) => (
+    <div
+      className={`${styles.tab} ${activeTab === tabId ? styles.active : ""}`}
+      id={tabId}
+      onClick={() => handleTabChange(tabId)}
+    >
+      {tabText}
+    </div>
+  );
+
   return (
     <section className={styles.tabs}>
       <div className={styles.tabWrapper}>
-        <div className={styles.tab} id="followers">
-          我的粉絲
-        </div>
-        <div className={styles.tab} id="following">
-          我的追蹤
-        </div>
-        <div
-          className={`${styles.tab} ${styles.active}`}
-          id="joined-activities"
-        >
-          我的報名
-        </div>
-        <div className={styles.tab} id="created-activities">
-          我的開團
-        </div>
+        {tabs.map((tab) => (
+          <Tab key={tab.id} tabId={tab.id} tabText={tab.text} />
+        ))}
       </div>
     </section>
   );

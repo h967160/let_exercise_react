@@ -11,6 +11,7 @@ import {
   create,
   update,
   getLevels,
+  deleteActivity as deleteActivityAPI,
 } from "@/apis/activity";
 import { useParams } from "react-router-dom";
 import { formatSearchDate } from "@/utils/format";
@@ -160,6 +161,24 @@ export const ActivityProvider = ({ children }) => {
     }
   };
 
+  const deleteActivity = async (activityId) => {
+    try {
+      const response = await deleteActivityAPI(activityId);
+      console.log("response: ", response);
+      if (response.status === "Success") {
+        // 更新活動列表狀態
+        setActivities((prevActivities) =>
+          prevActivities.filter((activity) => activity.id !== activityId)
+        );
+        return { status: "Success", message: "活動已刪除" };
+      } else {
+        return { status: "Error", message: response.message };
+      }
+    } catch (error) {
+      return { status: "Error", message: error.message };
+    }
+  };
+
   useEffect(() => {
     if (activityId) {
       fetchActivity(activityId);
@@ -199,6 +218,7 @@ export const ActivityProvider = ({ children }) => {
     getLevelName,
     fetchActivities,
     updateActivity,
+    deleteActivity,
   };
 
   return (

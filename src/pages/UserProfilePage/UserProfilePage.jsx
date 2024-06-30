@@ -6,17 +6,21 @@ import Tabs from "@/components/User/Tabs/Tabs";
 import TabContent from "@/components/User/Tabs/TabContent";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/contexts/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const UserProfilePage = () => {
   const { user: getTokenUser } = useAuth();
   const { fetchUserData } = useUser();
+  const [activeTab, setActiveTab] = useState("followers");
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (getTokenUser) {
-        const userData = await fetchUserData(getTokenUser.id);
-        console.log("userData: ", userData);
+        await fetchUserData(getTokenUser.id);
       }
     };
 
@@ -29,8 +33,8 @@ const UserProfilePage = () => {
       <Main>
         <div className="container">
           <UserProfileInfo />
-          <Tabs />
-          <TabContent />
+          <Tabs activeTab={activeTab} handleTabChange={handleTabChange} />
+          <TabContent activeTab={activeTab} />
         </div>
       </Main>
       <Footer />

@@ -196,18 +196,6 @@ const EditActivityPage = () => {
 
     const currentUserId = user && user.id;
 
-    // // 確認只有主辦人可以更新活動
-    // if (currentUserId !== activity.hostId) {
-    //   Swal.fire({
-    //     position: "top",
-    //     title: "您無權更新此活動！",
-    //     timer: 1000,
-    //     icon: "error",
-    //     showConfirmButton: false,
-    //   });
-    //   return;
-    // }
-
     formData.hostId = currentUserId; // 使用 currentUserId 作為主辦人 ID
     const response = await updateActivity(activityId, formData);
     if (response && response.status === "Success") {

@@ -35,4 +35,9 @@ section.tabContent {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px; // 添加一些內邊距以增加美觀性
+  .cardContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 每行3個卡片
+    gap: 20px; // 卡片之間的間隙
+  }
 }
