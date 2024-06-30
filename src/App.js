@@ -29,14 +29,9 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignUpPage />} />
                     <Route path="/activities" element={<ActivityPage />} />
-                    <Route path="/profile" element={<UserProfilePage />} />
                     <Route
                       path="/activities/:id"
                       element={<ActivityInfoPage />}
-                    />
-                    <Route
-                      path="/activities/:id/edit"
-                      element={<EditActivityPage />}
                     />
                     {/* 需登入驗證路由 */}
                     <Route element={<ProtectedRoute />}>
@@ -44,6 +39,11 @@ function App() {
                         path="/activities/create"
                         element={<CreateActivityPage />}
                       />
+                      <Route
+                        path="/activities/:id/edit"
+                        element={<EditActivityPage />}
+                      />
+                      <Route path="/profile" element={<UserProfilePage />} />
                     </Route>
                     {/* 非以上路由則跳轉到首頁 */}
                     <Route path="*" element={<HomePage />} />
