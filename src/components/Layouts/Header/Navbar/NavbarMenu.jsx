@@ -6,7 +6,7 @@ import hamburger from "@/assets/images/hamburger.png";
 import { Link } from "react-router-dom";
 
 const navItems = [
-  { label: "球團報名", path: "/activity" },
+  { label: "球團報名", path: "/activities" },
   { label: "場地資訊", path: "" },
   { label: "討論區", path: "" },
   { label: "商城", path: "" },

@@ -25,15 +25,42 @@ export const formatTime = (time) => {
   return time.slice(0, 5); // 取前兩個字元，即小時和分鐘部分
 };
 
-// 日期顯示格式
+// 活動表單日期顯示格式
 export const formatSearchDate = (dateString) => {
+  if (!dateString) {
+    return ""; // 如果日期字符串為空或未定義，返回空字符串或其他適合的預設值
+  }
+
   const date = new Date(dateString.replace(" ", "T")); // 將空格替換為 T
 
+  if (!date || isNaN(date.getTime())) {
+    return ""; // 如果日期無效，返回空字符串或其他適合的預設值
+  }
+
   const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, "0"); //月份從0開始所以+1
-  const day = date.getDate().toString().padStart(2, "0"); //兩位數顯示，不足補0
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 月份從0開始所以+1
+  const day = date.getDate().toString().padStart(2, "0"); // 兩位數顯示，不足補0
 
   return `${year}/${month}/${day}`;
+};
+
+// 日期顯示格式
+export const formatEditDate = (dateString) => {
+  if (!dateString) {
+    return ""; // 如果日期字符串為空或未定義，返回空字符串或其他適合的預設值
+  }
+
+  const date = new Date(dateString.replace(" ", "T")); // 將空格替換為 T
+
+  if (!date || isNaN(date.getTime())) {
+    return ""; // 如果日期無效，返回空字符串或其他適合的預設值
+  }
+
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 月份從0開始所以+1
+  const day = date.getDate().toString().padStart(2, "0"); // 兩位數顯示，不足補0
+
+  return `${year}-${month}-${day}`;
 };
 
 // 電話格式

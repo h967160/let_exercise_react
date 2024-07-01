@@ -4,20 +4,22 @@ import Input from "@/components/Common/Input";
 import Select from "@/components/Common/Select";
 import TextArea from "@/components/Common/TextArea";
 import { Button } from "@/components/Common/Button/Button";
-import styles from "./CreateActivityPage.module.scss";
+import styles from "./EditActivityPage.module.scss";
 import Header from "@/components/Layouts/Header/Header";
 import Footer from "@/components/Layouts/Footer/Footer";
 import { useArena } from "@/contexts/ArenaContext";
 import { useActivity } from "@/contexts/ActivityContext";
 import { useAuth } from "@/contexts/AuthContext";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useShuttlecock } from "@/contexts/ShuttlecockContext";
+import { formatEditDate } from "@/utils/format";
 
-const CreateActivityPage = () => {
+const EditActivityPage = () => {
   const { isAuthenticated, user } = useAuth();
+  const { id: activityId } = useParams();
   const {
     regions,
     setSelectedRegion,
@@ -25,8 +27,11 @@ const CreateActivityPage = () => {
     setArenaSearch,
     filteredArenas,
     selectArena,
+    fetchArena,
+    arena,
+    selectedArenaId,
   } = useArena();
-  const { createActivity, levels } = useActivity();
+  const { updateActivity, fetchActivity, activity, levels } = useActivity();
   const {
     shuttlecocks,
     shuttlecockSearch,
@@ -44,18 +49,17 @@ const CreateActivityPage = () => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      regionId: "",
-      arenaId: "",
-      shuttlecockProvide: "",
-      levelId: "",
-      shuttlecockId: "",
-      date: "",
-      timeStart: "",
-      timeEnd: "",
-      fee: "",
-      numsOfPeople: "",
-      totalPeople: "",
-      description: "",
+      arenaId: activity?.arenaId,
+      shuttlecockProvide: activity?.shuttlecockProvide,
+      levelId: activity?.levelId,
+      shuttlecockId: activity?.shuttlecockId,
+      date: activity?.date,
+      timeStart: activity?.timeStart,
+      timeEnd: activity?.timeEnd,
+      fee: activity?.fee,
+      numsOfPeople: activity?.numsOfPeople,
+      totalPeople: activity?.totalPeople,
+      description: activity?.description,
     },
   });
   const navigate = useNavigate();
@@ -63,30 +67,13 @@ const CreateActivityPage = () => {
   // 供球
   const yesNo = [
     { value: 1, name: "是" },
-    { value: 2, name: "否" },
+    { value: 0, name: "否" },
   ];
-
-  // 測試用一鍵輸入按鈕 之後會刪除
-  const handleQuickFill = () => {
-    setValue("regionId", 3);
-    setValue("shuttlecockId", 1);
-    setValue("date", "2024-07-02");
-    setValue("timeStart", "14:00");
-    setValue("timeEnd", "16:00");
-    setValue("shuttlecockProvide", 1);
-    setValue("levelId", 5);
-    setValue("fee", 500);
-    setValue("numsOfPeople", 6);
-    setValue("totalPeople", 10);
-    setValue("description", "一起來玩啊!");
-    // 手動觸發相關查詢和更新邏輯
-    const selectedRegionId = 3; // 一鍵輸入設置的 regionId
-    setSelectedRegion(selectedRegionId); // 更新選擇的地區
-  };
 
   const handleRegionChange = (event) => {
     const selectedRegionId = parseInt(event.target.value);
     setValue("regionId", selectedRegionId);
+    setValue("selectedArenaId", ""); // 在篩選縣市後清空抓取到的場館
     setSelectedRegion(selectedRegionId);
   };
 
@@ -116,7 +103,7 @@ const CreateActivityPage = () => {
 
   const isShuttlecockProvide = watch("shuttlecockProvide");
   useEffect(() => {
-    if (isShuttlecockProvide === "2") {
+    if (isShuttlecockProvide === "0") {
       clearErrors("shuttlecockId");
     } else if (isShuttlecockProvide === "1") {
       setError("shuttlecockId", {
@@ -145,6 +132,51 @@ const CreateActivityPage = () => {
     return true;
   };
 
+  useEffect(() => {
+    if (activityId) {
+      fetchActivity(activityId); // 請確保這個函數從 API 加載活動資料
+    }
+  }, [activityId, fetchActivity]);
+
+  useEffect(() => {
+    // 確保 activity 資料非空才設置表單的預設值
+    if (activity) {
+      setValue("arenaId", activity.arenaId);
+      setValue("shuttlecockProvide", activity.shuttlecockProvide ? 1 : 0);
+      setValue("levelId", activity.levelId);
+      setValue("shuttlecockId", activity.shuttlecockId);
+      setValue("date", formatEditDate(activity.date));
+      setValue("timeStart", activity.timeStart);
+      setValue("timeEnd", activity.timeEnd);
+      setValue("fee", activity.fee);
+      setValue("numsOfPeople", activity.numsOfPeople);
+      setValue("totalPeople", activity.totalPeople);
+      setValue("description", activity.description);
+
+      // 根據 activity 中的 arenaId 加載對應的 arena 資料
+      if (activity.arenaId) {
+        const loadArena = async () => {
+          try {
+            const fetchedArena = await fetchArena(activity.arenaId);
+            // 確保 fetchedArena 非空才更新表單值
+            if (fetchedArena) {
+              setValue("arenaId", fetchedArena.arenaId);
+              // 如果需要在表單中顯示 arena 的名稱和地址，可以這樣設置
+              setValue(
+                "selectedArena",
+                `${fetchedArena.name} (${fetchedArena.address})`
+              );
+            }
+          } catch (error) {
+            console.error("Failed to fetch arena:", error);
+            // 處理其他錯誤情況，例如顯示錯誤訊息給用戶
+          }
+        };
+
+        loadArena();
+      }
+    }
+  }, [activity, setValue, fetchArena]);
   const onSubmit = async (formData) => {
     formData.numsOfPeople = parseInt(formData.numsOfPeople);
     formData.totalPeople = parseInt(formData.totalPeople);
@@ -162,12 +194,14 @@ const CreateActivityPage = () => {
       return;
     }
 
-    formData.hostId = user && user.id;
-    const response = await createActivity(formData);
+    const currentUserId = user && user.id;
+
+    formData.hostId = currentUserId; // 使用 currentUserId 作為主辦人 ID
+    const response = await updateActivity(activityId, formData);
     if (response && response.status === "Success") {
       Swal.fire({
         position: "top",
-        title: "成功建立活動！",
+        title: "成功更新活動！",
         timer: 1000,
         icon: "success",
         showConfirmButton: false,
@@ -176,7 +210,7 @@ const CreateActivityPage = () => {
     } else {
       Swal.fire({
         position: "top",
-        title: "建立活動失敗！",
+        title: "更新活動失敗！",
         timer: 1000,
         text: response.message,
         icon: "error",
@@ -189,12 +223,6 @@ const CreateActivityPage = () => {
     <>
       <Header />
       <FormBox onSubmit={handleSubmit(onSubmit)}>
-        <Button
-          className={styles.autoFillButton}
-          text={"一鍵輸入"}
-          type="button"
-          onClick={handleQuickFill}
-        />
         <FormGroup>
           <div className="formLabel">
             <label htmlFor="regionId">場館</label>
@@ -233,10 +261,12 @@ const CreateActivityPage = () => {
                     {
                       value: watchArenaId,
                       name: `${
+                        arena?.name ??
                         filteredArenas.find(
                           (arena) => arena.arenaId === parseInt(watchArenaId)
                         )?.name
                       } (${
+                        arena?.address ??
                         filteredArenas.find(
                           (arena) => arena.arenaId === parseInt(watchArenaId)
                         )?.address
@@ -245,31 +275,24 @@ const CreateActivityPage = () => {
                     ...filteredArenas
                       .filter(
                         (arena) => arena.arenaId !== parseInt(watchArenaId)
-                      ) // 排除已選擇的場館
+                      )
                       .map((arena) => ({
                         value: arena.arenaId,
                         name: `${arena.name} (${arena.address})`,
                       })),
                   ]}
-                  value={watchArenaId}
+                  value={selectedArenaId || undefined} // 使用 undefined 可以讓 Select 變為 uncontrolled component (避免報錯)
                   onChange={handleArenaChange}
                 />
               ) : (
-                // 如果尚未選擇場館或重新篩選後無場館，顯示選擇場館的下拉選單
                 <Select
                   id="arenaId"
                   name="arenaId"
                   item={"請選擇場館"}
-                  options={[
-                    ...filteredArenas
-                      .filter(
-                        (arena) => arena.arenaId !== parseInt(watchArenaId)
-                      ) // 排除已選擇的場館
-                      .map((arena) => ({
-                        value: arena.arenaId,
-                        name: `${arena.name} (${arena.address})`,
-                      })),
-                  ]}
+                  options={filteredArenas.map((arena) => ({
+                    value: arena.arenaId,
+                    name: `${arena.name} (${arena.address})`,
+                  }))}
                   value={watchArenaId}
                   onChange={handleArenaChange}
                   size={
@@ -293,6 +316,7 @@ const CreateActivityPage = () => {
                 id="shuttlecockProvide"
                 name="shuttlecockProvide"
                 options={yesNo}
+                value={watch("shuttlecockProvide")}
                 item={"請選擇是否提供羽毛球"}
                 {...register("shuttlecockProvide", {
                   required: "供球為必填",
@@ -338,8 +362,11 @@ const CreateActivityPage = () => {
                     }))
               }
               item={"請選擇羽毛球型號"}
-              disabled={isShuttlecockProvide === "2"}
-              {...register("shuttlecockId")}
+              disabled={isShuttlecockProvide === "0"}
+              {...register("shuttlecockId", {
+                setValueAs: (value) =>
+                  isShuttlecockProvide === "0" ? null : value,
+              })}
             />
             <Input
               type="text"
@@ -349,7 +376,7 @@ const CreateActivityPage = () => {
               {...register("shuttlecockSearch")}
               value={shuttlecockSearch}
               onChange={handleShuttlecockSearchChange}
-              disabled={isShuttlecockProvide === "2"}
+              disabled={isShuttlecockProvide === "0"}
             />
           </div>
           <div className="errorPlaceholder">
@@ -478,4 +505,4 @@ const CreateActivityPage = () => {
   );
 };
 
-export default CreateActivityPage;
+export default EditActivityPage;

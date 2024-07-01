@@ -5,7 +5,7 @@ import Main from "@/components/Main/Main";
 import Header from "@/components/Layouts/Header/Header";
 import AuthInput from "@/components/Auth/AuthInput";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthButton, AuthLinkText } from "@/components/Common/Auth/Auth";
 import { useAuth } from "@/contexts/AuthContext";
 import { useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 const LoginPage = () => {
   const navigate = useNavigate();
   const { login, isAuthenticated } = useAuth(); // 取出需要的狀態與方法
+  const location = useLocation();
   const [responseError, setResponseError] = useState("");
   const {
     register,
@@ -36,6 +37,12 @@ const LoginPage = () => {
         icon: "success",
         showConfirmButton: false,
       });
+      // 登入成功後導航到來源路徑或首頁
+      if (location.state && location.state.from) {
+        navigate(location.state.from);
+      } else {
+        navigate("/");
+      }
     } else {
       Swal.fire({
         position: "top",

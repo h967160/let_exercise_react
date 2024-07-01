@@ -1,0 +1,91 @@
+section.userProfileInfo {
+  padding-top: 10%;
+  max-width: 1200px;
+  margin: 0 auto;
+  .userInfoWrapper {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    .userImage {
+      grid-column: 1 / 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 200px;
+      margin-right: 12px;
+      .avatarBox {
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 50%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+    .userInfoStats {
+      grid-column: 2 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      .userName {
+        p {
+          font-size: 16px;
+          color: var(--grey-300);
+        }
+      }
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 10px;
+        & > div {
+          text-align: center;
+          font-size: 14px;
+          color: #666;
+        }
+        span {
+          display: block;
+          font-size: 24px;
+          font-weight: bold;
+        }
+      }
+    }
+    .buttonBox {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      .editButton {
+        display: inline-block;
+        padding: 10px 20px;
+        color: #3f9e5f;
+        background-color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border: 1px solid #3f9e5f;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .editButton:hover {
+        background-color: #e0f7ea;
+      }
+      .createButton {
+        display: inline-block;
+        padding: 10px 20px;
+        color: orange;
+        background-color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border: 1px solid orange;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .createButton:hover {
+        background-color: #ffecd1;
+      }
+    }
+  }
+}

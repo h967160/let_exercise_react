@@ -1,0 +1,60 @@
+.card {
+  flex: 1 1 300px; // 每個卡片的最小寬度
+  max-width: 350px; // 每個卡片的最大寬度
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .cardBody {
+    display: flex;
+    flex-direction: column;
+    .cardTitle {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+    .cardText {
+      margin: 5px 0;
+    }
+
+    .buttonBox {
+      display: flex;
+      gap: 10px;
+
+      .cardEditButton,
+      .cardDeleteButton {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .cardEditButton {
+        color: #007bff;
+        background-color: #fff;
+        border: 1px solid #007bff;
+      }
+
+      .cardEditButton:hover {
+        background-color: #007bff;
+        color: var(--white);
+      }
+
+      .cardDeleteButton {
+        color: #dc3545;
+        background-color: #fff;
+        border: 1px solid #dc3545;
+      }
+
+      .cardDeleteButton:hover {
+        background-color: #dc3545;
+        color: var(--white);
+      }
+    }
+  }
+}

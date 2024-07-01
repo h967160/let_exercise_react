@@ -6,19 +6,25 @@ import { useActivity } from "@/contexts/ActivityContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUser } from "@/contexts/UserContext";
 import { calculatePlaySince } from "@/utils/format";
-import { Button } from "../Common/Button/Button";
+import { Button } from "../../Common/Button/Button";
 
 const UserInfo = () => {
   const { activity } = useActivity();
-  const { isAuthenticated } = useAuth();
+  const { user: getTokenUser, isAuthenticated } = useAuth();
   const { user, fetchUserData } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetchUserData();
+      const fetchData = async () => {
+        if (getTokenUser) {
+          await fetchUserData(getTokenUser.id);
+        }
+      };
+
+      fetchData();
     }
-  }, [isAuthenticated, fetchUserData]);
+  }, [isAuthenticated, fetchUserData, getTokenUser]);
 
   const handleLoginButtonClick = () => {
     // 儲存url可以在登入後重定向

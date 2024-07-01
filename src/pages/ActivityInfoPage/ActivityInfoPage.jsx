@@ -4,7 +4,7 @@ import Header from "@/components/Layouts/Header/Header";
 import ActivityInfo from "@/components/Activity/ActivityInfo";
 import ArenaInfo from "@/components/Arena/ArenaInfo";
 import styles from "./ActivityInfo.module.scss";
-import UserInfo from "@/components/User/UserInfo";
+import UserInfo from "@/components/User/UserInfo/UserInfo";
 import { useParams } from "react-router-dom";
 import { useActivity } from "@/contexts/ActivityContext";
 import { useEffect } from "react";

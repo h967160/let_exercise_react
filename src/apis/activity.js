@@ -9,7 +9,9 @@ export const getAll = async (page, regionId, date, level) => {
     );
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch activities: " + error.message);
+    throw new Error(
+      "Failed to fetch activities: " + error.response.data.message
+    );
   }
 };
 
@@ -18,7 +20,7 @@ export const getActivity = async (activityId) => {
     const response = await axios.get(`${BASE_URL}/activities/${activityId}`);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch activity: " + error.message);
+    throw new Error("Failed to fetch activity: " + error.response.data.message);
   }
 };
 
@@ -40,7 +42,9 @@ export const create = async (activityData) => {
     );
     return response;
   } catch (error) {
-    throw new Error(error.response.data.message);
+    throw new Error(
+      "Failed to create activity: " + error.response.data.message
+    );
   }
 };
 
@@ -49,6 +53,51 @@ export const getLevels = async () => {
     const response = await axios.get(`${BASE_URL}/levels/all`);
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch levels: " + error.message);
+    throw new Error("Failed to fetch levels: " + error.response.data.message);
+  }
+};
+
+export const update = async (activityId, updatedData) => {
+  // 取得 token
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("請先登入!");
+  }
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/activities/edit/${activityId}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const deleteActivity = async (activityId) => {
+  try {
+    // 取得 token
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("請先登入!");
+    }
+    const response = await axios.delete(
+      `${BASE_URL}/activities/${activityId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      "Failed to delete activity: " + error.response.data.message
+    );
   }
 };

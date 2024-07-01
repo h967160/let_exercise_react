@@ -1,0 +1,43 @@
+section.tabs {
+  margin-top: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  .tabWrapper {
+    display: flex;
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: var(--white);
+      border-radius: 5px 5px 0 0;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: var(--grey-100);
+      }
+
+      &.active {
+        background-color: var(--activeButton);
+        color: var(--white);
+
+        &:hover {
+          background-color: var(--hoverButton);
+        }
+      }
+    }
+  }
+}
+
+section.tabContent {
+  margin-top: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px; // 添加一些內邊距以增加美觀性
+  .cardContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 每行3個卡片
+    gap: 20px; // 卡片之間的間隙
+  }
+}

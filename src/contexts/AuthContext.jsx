@@ -17,6 +17,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
+  const [loading, setLoading] = useState(true); // 新增 loading 狀態
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -25,13 +26,25 @@ export const AuthProvider = ({ children }) => {
       if (!token) {
         setIsAuthenticated(false);
         setPayload(null);
-        return;
+        setLoading(false); // 無 token 時設置 loading 為 false
       } else {
-        const tempPayload = jwt.decode(token);
-        setPayload(tempPayload);
-        setIsAuthenticated(true);
+        try {
+          const tempPayload = jwt.decode(token);
+          if (tempPayload) {
+            setPayload(tempPayload);
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+            setPayload(null);
+          }
+        } catch (error) {
+          setIsAuthenticated(false);
+          setPayload(null);
+        }
+        setLoading(false); // token 驗證完成後設置 loading 為 false
       }
     };
+
     checkTokenIsValid();
   }, [pathname]);
 
@@ -98,6 +111,7 @@ export const AuthProvider = ({ children }) => {
           setPayload(null);
           setIsAuthenticated(false);
         },
+        loading,
       }}
     >
       {children}
